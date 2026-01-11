@@ -3,7 +3,7 @@
     <head>
         <title>Boston Transportation Cost</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="styles.css?v=123">
     </head>
     <body>
         <h1>Do You Really Need a Car in Boston?</h1>
@@ -11,11 +11,25 @@
 
         <p>Is owning a car in Boston worth it? This website helps you compare the costs of life with a car versus life without one. Browse example lifestyles—like students, families, or daily commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
 
-        <h2>Boston Transportation Cost Calculator</h2>
+        <h2>Boston Transportation Cost Calculator (coming soon...)</h2>
         <img src="images/calculator_image.png">
 
         <h2>Typical Transportaion Costs for Different Lifestyles</h2>
         
+        <template id="accordion-template">
+            <details class="card">
+                <summary>
+                <img class="icon">
+                <span class="title"></span>
+                <span class="chev">▾</span>
+                </summary>
+                <div class="content"></div>
+            </details>
+        </template>
+
+        <section id="lifestyles"></section>
+
+        <script type="text/javascript" src='main.js'></script>
 
     </body>
 </html>

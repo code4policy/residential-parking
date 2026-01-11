@@ -14,7 +14,7 @@ body {
 }
 /* styles for headline */
 h1 {
-  color: red;
+  color: black;
   text-align: center;
 }
 /* styles for subheadline */
@@ -48,3 +48,50 @@ img {
 .btn:hover {
   background-color: darkred;
 } 
+
+.lifestyles { width: 100%; }
+
+.card {
+  border: 2px solid #000;
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.card summary {
+  list-style: none;          /* remove default marker */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+  user-select: none;
+}
+
+/* remove marker in Chrome/Safari */
+.card summary::-webkit-details-marker { display: none; }
+
+.card .icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+}
+
+.card .title {
+  font-weight: 700;
+  flex: 1;
+}
+
+.card .chev {
+  transition: transform 180ms ease;
+}
+
+.card[open] .chev {
+  transform: rotate(180deg);
+}
+
+.card .content {
+  padding: 0 16px 16px 16px;
+}
