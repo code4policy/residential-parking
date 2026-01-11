@@ -1,0 +1,97 @@
+/* Set background */
+html {
+  background-color: #091f2f;
+}
+/* styles for the body of the site */
+body {
+  width: 60%;
+  background-color: white;
+  border: 5px solid black;
+  padding: 0 20px 20px 20px;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* styles for headline */
+h1 {
+  color: black;
+  text-align: center;
+}
+/* styles for subheadline */
+h2 {
+  color: black;
+}
+/* styles for paragraph */
+p {
+  color: black;
+}
+/* styles for image */
+img {
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+}
+/* ===== Button-style hyperlink ===== */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: maroon;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 2px solid black;
+}
+/* hover effect */
+.btn:hover {
+  background-color: darkred;
+} 
+
+.lifestyles { width: 100%; }
+
+.card {
+  border: 2px solid #000;
+  border-radius: 10px;
+  margin: 12px 0;
+  overflow: hidden;
+  background: #fff;
+}
+
+.card summary {
+  list-style: none;          /* remove default marker */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 16px;
+  user-select: none;
+}
+
+/* remove marker in Chrome/Safari */
+.card summary::-webkit-details-marker { display: none; }
+
+.card .icon {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+}
+
+.card .title {
+  font-weight: 700;
+  flex: 1;
+}
+
+.card .chev {
+  transition: transform 180ms ease;
+}
+
+.card[open] .chev {
+  transform: rotate(180deg);
+}
+
+.card .content {
+  padding: 0 16px 16px 16px;
+}
