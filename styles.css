@@ -14,7 +14,8 @@ body {
 }
 /* styles for headline */
 h1 {
-  color: black;
+  color: red;
+  text-align: center;
 }
 /* styles for subheadline */
 h2 {
