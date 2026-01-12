@@ -1,35 +1,135 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Boston Transportation Cost</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="styles.css?v=123">
-    </head>
-    <body>
-        <h1>Do You Really Need a Car in Boston?</h1>
-        <p>Note: This is a student project. <a href='our-team/index.html'>Learn more about our team</a></p>
+<<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Cost Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
 
-        <p>Is owning a car in Boston worth it? This website helps you compare the costs of life with a car versus life without one. Browse example lifestyles—like students, families, or daily commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
-
-        <h2>Boston Transportation Cost Calculator (coming soon...)</h2>
-        <img src="images/calculator_image.png">
-
-        <h2>Typical Transportaion Costs for Different Lifestyles</h2>
+  <body>
+    <header class="top">
+      <div class="wrap">
+        <h1>Trip Cost Calculator</h1>
+        <p>Enter how many <strong>round trips</strong> you take for each category every year.</p>
         
-        <template id="accordion-template">
-            <details class="card">
-                <summary>
-                <img class="icon">
-                <span class="title"></span>
-                <span class="chev">▾</span>
-                </summary>
-                <div class="content"></div>
-            </details>
-        </template>
+        <div class="userCategories">
+          <p class="categoryLabel">What type of user are you?</p>
+          <div class="categoryButtons">
+            <button class="categoryBtn" id="categoryStudent" data-category="student">
+              <span class="categoryEmoji">👨‍🎓</span>
+              <span>Student/Professional</span>
+            </button>
+            <button class="categoryBtn" id="categoryCouple" data-category="couple">
+              <span class="categoryEmoji">👫</span>
+              <span>Couple no kids</span>
+            </button>
+            <button class="categoryBtn" id="categoryFamily" data-category="family">
+              <span class="categoryEmoji">👨‍👩‍👧‍👦</span>
+              <span>Family with 2+ kids</span>
+            </button>
+            <button class="categoryBtn" id="categoryFrequent" data-category="frequent">
+              <span class="categoryEmoji">🚴</span>
+              <span>Frequent Trip Goers</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
 
-        <section id="lifestyles"></section>
+    <main class="wrap grid">
+      <!-- LEFT: inputs -->
+      <section class="card">
+        <h2>Input</h2>
 
-        <script type="text/javascript" src='main.js'></script>
+        <div class="inputList">
+          <div class="inputRow">
+            <div class="labels">
+              <div class="name">Groceries</div>
+              <div class="sub">No. of trips per year</div>
+            </div>
+            <input id="groceries" type="number" min="0" step="1" value="0" />
+          </div>
 
-    </body>
+          <div class="inputRow">
+            <div class="labels">
+              <div class="name">Historical Towns</div>
+              <div class="sub">No. of trips per year</div>
+            </div>
+            <input id="historical" type="number" min="0" step="1" value="0" />
+          </div>
+
+          <div class="inputRow">
+            <div class="labels">
+              <div class="name">Coastal Towns</div>
+              <div class="sub">No. of trips per year</div>
+            </div>
+            <input id="coastal" type="number" min="0" step="1" value="0" />
+          </div>
+
+          <div class="inputRow">
+            <div class="labels">
+              <div class="name">Family Trips (with child)</div>
+              <div class="sub">No. of trips per year</div>
+            </div>
+            <input id="family" type="number" min="0" step="1" value="0" />
+          </div>
+        </div>
+
+        <div class="btnRow">
+          <button id="resetBtn" type="button">Reset</button>
+        </div>
+
+        <p class="error" id="error"></p>
+      </section>
+
+      <!-- RIGHT: results -->
+      <section class="card">
+        <h2>Result</h2>
+
+        <div class="resultTable">
+          <div class="resultHead">Total</div>
+          <div class="resultHead">Car Cost</div>
+          <div class="resultHead">No Car Cost</div>
+
+          <div class="resultCell label">Your total</div>
+          <div class="resultCell big" id="carTotal">$0.00</div>
+          <div class="resultCell big" id="noCarTotal">$0.00</div>
+        </div>
+
+        <div class="mini">
+          <div class="miniRow">
+            <span class="miniLabel">Car formula</span>
+            <span class="miniValue">(Var Cost × Trips Made) + Fixed Cost</span>
+          </div>
+          <div class="miniRow">
+            <span class="miniLabel">No car formula</span>
+            <span class="miniValue">(Public Transport × Trips Made) + Uber Cost</span>
+          </div>
+        </div>
+
+        <div class="compare">
+          <div class="compareTitle">Comparison</div>
+          <div class="compareValue" id="compareValue">—</div>
+          <div class="compareNote" id="compareNote">Type trips to see which option is cheaper.</div>
+        </div>
+
+        <div class="fixed">
+          <div class="fixedRow">
+            <span>Uber Cost (fixed, no car)</span>
+            <strong id="uberFixed">$150.00</strong>
+          </div>
+          <div class="fixedRow">
+            <span>Fixed Cost (car)</span>
+            <strong id="carFixed">$2,293.00</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="wrap foot">Built with HTML, CSS, JavaScript</footer>
+
+    <!-- IMPORTANT: script loads AFTER HTML so it always works -->
+    <script src="main.js"></script>
+  </body>
 </html>

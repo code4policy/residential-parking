@@ -1,97 +1,233 @@
-/* Set background */
-html {
-  background-color: #091f2f;
+:root {
+  --bg: #f5f5f5;
+  --card: #ffffff;
+  --border: #d0d0d0;
+  --text: #1a1a1a;
+  --muted: #555555;
+  --muted2: #888888;
+  --primary: #0056b3;
+  --primary-light: #e7f0ff;
+  --success: #2d5016;
+  --success-light: #e8f5e9;
+  --warning: #cc6600;
+  --warning-light: #fff3e0;
+  --danger: #c41e3a;
+  --danger-light: #ffebee;
+  --r: 8px;
 }
-/* styles for the body of the site */
+
+* { box-sizing: border-box; }
 body {
-  width: 60%;
-  background-color: white;
-  border: 5px solid black;
-  padding: 0 20px 20px 20px;
-  margin-top: 25px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color: var(--text);
+  background-color: var(--bg);
+  font-size: 18px;
+  zoom: 1.4;
+  line-height: 1.6;
 }
-/* styles for headline */
-h1 {
-  color: black;
+
+.wrap { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
+
+.top { padding: 24px 0 10px; }
+.top h1 { margin: 0; text-align: center; font-size: 2.5rem; color: var(--primary); }
+.top p { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: 1.2rem; }
+
+.userCategories {
+  margin-top: 24px;
+  padding: 18px;
+  background: var(--primary-light);
+  border: 2px solid var(--primary);
+  border-radius: var(--r);
+}
+
+.categoryLabel {
+  margin: 0 0 14px;
+  color: var(--primary);
+  font-weight: 900;
+  font-size: 1.1rem;
+}
+
+.categoryButtons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.categoryBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 12px;
+  border-radius: var(--r);
+  border: 2px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.05rem;
+  transition: all 200ms ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.categoryEmoji {
+  font-size: 3.5rem;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.categoryBtn span:not(.categoryEmoji) {
+  font-size: 1.1rem;
+  font-weight: 800;
   text-align: center;
 }
-/* styles for subheadline */
-h2 {
-  color: black;
-}
-/* styles for paragraph */
-p {
-  color: black;
-}
-/* styles for image */
-img {
-  background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 100%;
-  height: auto;
-}
-/* ===== Button-style hyperlink ===== */
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: maroon;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  border: 2px solid black;
-}
-/* hover effect */
-.btn:hover {
-  background-color: darkred;
-} 
 
-.lifestyles { width: 100%; }
+.categoryBtn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+}
+
+.categoryBtn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 18px;
+  padding: 18px 0 24px;
+}
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
 
 .card {
-  border: 2px solid #000;
-  border-radius: 10px;
-  margin: 12px 0;
-  overflow: hidden;
-  background: #fff;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-.card summary {
-  list-style: none;          /* remove default marker */
-  cursor: pointer;
-  display: flex;
+.card h2 { margin: 0 0 14px; font-size: 1.6rem; font-weight: 900; color: var(--primary); }
+
+.inputList { display: grid; gap: 12px; }
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 10px;
   align-items: center;
-  gap: 12px;
+  padding: 14px;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: #fafafa;
+}
+.labels .name { font-weight: 800; font-size: 1.2rem; color: var(--text); }
+.labels .sub { margin-top: 4px; color: var(--muted2); font-size: 1.05rem; }
 
+input[type="number"] {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  font-size: 1.1rem;
+  outline: none;
+  font-weight: 500;
+}
+
+input[type="number"]:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.btnRow { margin-top: 12px; }
+button {
+  width: 100%;
   padding: 14px 16px;
-  user-select: none;
+  border-radius: var(--r);
+  border: 2px solid var(--primary);
+  background: var(--primary);
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: all 200ms ease;
+  box-shadow: 0 2px 4px rgba(0, 86, 179, 0.2);
+}
+button:hover {
+  background: #003d82;
+  border-color: #003d82;
+  box-shadow: 0 4px 8px rgba(0, 86, 179, 0.3);
+}
+button:active {
+  transform: scale(0.98);
 }
 
-/* remove marker in Chrome/Safari */
-.card summary::-webkit-details-marker { display: none; }
+.error { min-height: 20px; margin: 10px 0 0; color: var(--danger); font-weight: 800; font-size: 1rem; }
 
-.card .icon {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
+.resultTable {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-radius: var(--r);
+  overflow: hidden;
+  border: 2px solid var(--border);
 }
+.resultHead {
+  padding: 12px;
+  background: var(--primary);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+}
+.resultCell {
+  padding: 12px;
+  border-top: 1px solid var(--border);
+  background: #fafafa;
+  text-align: center;
+}
+.resultCell.label {
+  background: white;
+  color: var(--text);
+  font-weight: 900;
+}
+.resultCell.big { font-size: 2rem; font-weight: 950; color: var(--primary); }
 
-.card .title {
-  font-weight: 700;
-  flex: 1;
-}
+.mini { margin-top: 14px; color: var(--muted); font-size: 0.95rem; }
+.miniRow { display: flex; gap: 10px; padding: 6px 0; }
+.miniLabel { min-width: 120px; color: var(--text); font-weight: 900; }
+.miniValue { color: var(--muted); }
 
-.card .chev {
-  transition: transform 180ms ease;
+.compare {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: var(--r);
+  border: 2px solid var(--warning);
+  background: var(--warning-light);
 }
+.compareTitle { color: var(--warning); font-weight: 950; font-size: 1rem; }
+.compareValue { margin-top: 8px; font-size: 1.5rem; font-weight: 950; color: var(--warning); }
+.compareNote { margin-top: 6px; color: var(--muted); font-size: 0.95rem; }
 
-.card[open] .chev {
-  transform: rotate(180deg);
+.fixed {
+  margin-top: 14px;
+  display: grid;
+  gap: 10px;
 }
+.fixedRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: #fafafa;
+  color: var(--text);
+}
+.fixedRow strong { color: var(--primary); font-weight: 900; }
 
-.card .content {
-  padding: 0 16px 16px 16px;
-}
+.foot { padding: 18px 0 30px; color: var(--muted2); text-align: center; }
