@@ -1,97 +1,74 @@
-/* Set background */
-html {
-  background-color: #091f2f;
-}
-/* styles for the body of the site */
-body {
-  width: 60%;
-  background-color: white;
-  border: 5px solid black;
-  padding: 0 20px 20px 20px;
-  margin-top: 25px;
-  margin-left: auto;
-  margin-right: auto;
-}
-/* styles for headline */
-h1 {
-  color: black;
-  text-align: center;
-}
-/* styles for subheadline */
-h2 {
-  color: black;
-}
-/* styles for paragraph */
-p {
-  color: black;
-}
-/* styles for image */
-img {
-  background-color: white;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 100%;
-  height: auto;
-}
-/* ===== Button-style hyperlink ===== */
-.btn {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: maroon;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  border: 2px solid black;
-}
-/* hover effect */
-.btn:hover {
-  background-color: darkred;
-} 
-
-.lifestyles { width: 100%; }
-
-.card {
-  border: 2px solid #000;
-  border-radius: 10px;
-  margin: 12px 0;
-  overflow: hidden;
-  background: #fff;
+main {
+padding-top: 4rem;
 }
 
-.card summary {
-  list-style: none;          /* remove default marker */
-  cursor: pointer;
+.acc-head{
+    display:flex;
+    align-items:center;
+    gap:.75rem;
+}
+.acc-icon{
+    width:32px;
+    height:32px;
+    flex:0 0 auto;
+}
+.acc-title{
+    font-weight:700;
+}
+
+/* Make each accordion item span the full content width */
+.cob-accordion .b-collapsible {
+  width: 100%;
+  border-top: 1px solid #d8d8d8;
+}
+.cob-accordion .b-collapsible:last-child {
+  border-bottom: 1px solid #d8d8d8;
+}
+
+/* Make the clickable header look like a COB row */
+.cob-accordion .b-collapsible__header {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
 
-  padding: 14px 16px;
-  user-select: none;
+  padding: 1rem 1rem;
+  text-align: left;
+
+  background: #fff;
+  border: 0;            /* remove “button box” feel */
+  cursor: pointer;
+}
+.cob-accordion .b-collapsible__header:hover {
+  background: #f6f6f6;
 }
 
-/* remove marker in Chrome/Safari */
-.card summary::-webkit-details-marker { display: none; }
-
-.card .icon {
-  width: 44px;
-  height: 44px;
+/* Your icon + title layout */
+.cob-accordion .acc-head {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.cob-accordion .acc-icon {
+  width: 32px;
+  height: 32px;
   flex: 0 0 auto;
 }
-
-.card .title {
+.cob-accordion .acc-title {
   font-weight: 700;
-  flex: 1;
 }
 
-.card .chev {
-  transition: transform 180ms ease;
+/* Add a COB-like chevron */
+.cob-accordion .b-collapsible__header::after {
+  content: "▾";
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.cob-accordion .b-collapsible__header[aria-expanded="true"]::after {
+  content: "▴";
 }
 
-.card[open] .chev {
-  transform: rotate(180deg);
-}
-
-.card .content {
-  padding: 0 16px 16px 16px;
+/* Panel spacing */
+.cob-accordion .b-collapsible__content {
+  padding: 0 1rem 1rem 1rem;
 }
