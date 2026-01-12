@@ -12,7 +12,7 @@
         <link media="all" rel="stylesheet" href="https://patterns.boston.gov/css/ie.css">
         <![endif]-->         
 		<!-- <link rel="stylesheet" href="styles.css?v=123"> -->
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="styles.css?v=5">
 	</head>
 
     <body>
@@ -105,128 +105,130 @@
                                         Enter how many <strong>round trips</strong> you take for each category every year.
                                         </p>
 
-                                        <!-- User categories (styled as Fleet buttons) -->
-                                        <div class="calc-user">
-                                        <p class="t--subinfo">What type of user are you?</p>
+                                        <div class="calc-shell">
+                                            <!-- User categories (styled as Fleet buttons) -->
+                                            <div class="calc-user">
+                                            <p class="t--subinfo">What type of user are you?</p>
 
-                                        <div class="calc-user-buttons">
-                                            <button class="btn categoryBtn" id="categoryStudent" data-category="student" type="button">
-                                            <span class="categoryEmoji" aria-hidden="true">👨‍🎓</span>
-                                            <span>Student/Professional</span>
-                                            </button>
+                                            <div class="calc-user-buttons">
+                                                <button class="btn categoryBtn" id="categoryStudent" data-category="student" type="button">
+                                                <span class="categoryEmoji" aria-hidden="true">👨‍🎓</span>
+                                                <span>Student/Professional</span>
+                                                </button>
 
-                                            <button class="btn categoryBtn" id="categoryCouple" data-category="couple" type="button">
-                                            <span class="categoryEmoji" aria-hidden="true">👫</span>
-                                            <span>Couple no kids</span>
-                                            </button>
+                                                <button class="btn categoryBtn" id="categoryCouple" data-category="couple" type="button">
+                                                <span class="categoryEmoji" aria-hidden="true">👫</span>
+                                                <span>Couple no kids</span>
+                                                </button>
 
-                                            <button class="btn categoryBtn" id="categoryFamily" data-category="family" type="button">
-                                            <span class="categoryEmoji" aria-hidden="true">👨‍👩‍👧‍👦</span>
-                                            <span>Family with 2+ kids</span>
-                                            </button>
+                                                <button class="btn categoryBtn" id="categoryFamily" data-category="family" type="button">
+                                                <span class="categoryEmoji" aria-hidden="true">👨‍👩‍👧‍👦</span>
+                                                <span>Family with kids</span>
+                                                </button>
 
-                                            <button class="btn categoryBtn" id="categoryFrequent" data-category="frequent" type="button">
-                                            <span class="categoryEmoji" aria-hidden="true">🚴</span>
-                                            <span>Frequent Trip Goers</span>
-                                            </button>
-                                        </div>
-                                        </div>
-
-                                        <!-- Two-column layout (Fleet-ish) -->
-                                        <div class="calc-grid">
-                                        <!-- LEFT -->
-                                        <div class="calc-card">
-                                            <h3 class="h3">Input</h3>
-
-                                            <div class="calc-inputList">
-                                            <label class="calc-row">
-                                                <span class="calc-labels">
-                                                <span class="calc-name">Groceries</span>
-                                                <span class="calc-sub">Trips per year</span>
-                                                </span>
-                                                <input id="groceries" class="txt" type="number" min="0" step="1" value="0">
-                                            </label>
-
-                                            <label class="calc-row">
-                                                <span class="calc-labels">
-                                                <span class="calc-name">Historical Towns</span>
-                                                <span class="calc-sub">Trips per year</span>
-                                                </span>
-                                                <input id="historical" class="txt" type="number" min="0" step="1" value="0">
-                                            </label>
-
-                                            <label class="calc-row">
-                                                <span class="calc-labels">
-                                                <span class="calc-name">Coastal Towns</span>
-                                                <span class="calc-sub">Trips per year</span>
-                                                </span>
-                                                <input id="coastal" class="txt" type="number" min="0" step="1" value="0">
-                                            </label>
-
-                                            <label class="calc-row">
-                                                <span class="calc-labels">
-                                                <span class="calc-name">Family Trips (with child)</span>
-                                                <span class="calc-sub">Trips per year</span>
-                                                </span>
-                                                <input id="family" class="txt" type="number" min="0" step="1" value="0">
-                                            </label>
-                                            </div>
-
-                                            <div class="m-t300">
-                                            <button id="resetBtn" class="btn" type="button">Reset</button>
-                                            </div>
-
-                                            <p class="t--err m-t200" id="error"></p>
-                                        </div>
-
-                                        <!-- RIGHT -->
-                                        <div class="calc-card">
-                                            <h3 class="h3">Result</h3>
-
-                                            <div class="calc-result">
-                                            <div class="calc-resultHead">Total</div>
-                                            <div class="calc-resultHead">Car Cost</div>
-                                            <div class="calc-resultHead">No Car Cost</div>
-
-                                            <div class="calc-cell">Your total</div>
-                                            <div class="calc-cell calc-big" id="carTotal">$0.00</div>
-                                            <div class="calc-cell calc-big" id="noCarTotal">$0.00</div>
-                                            </div>
-
-                                            <div class="m-t300">
-                                            <div class="calc-miniRow">
-                                                <span class="t--subinfo">Car formula</span>
-                                                <span>(Var Cost × Trips) + Fixed Cost</span>
-                                            </div>
-                                            <div class="calc-miniRow">
-                                                <span class="t--subinfo">No car formula</span>
-                                                <span>(Public Transport × Trips) + Uber Cost</span>
+                                                <button class="btn categoryBtn" id="categoryFrequent" data-category="frequent" type="button">
+                                                <span class="categoryEmoji" aria-hidden="true">🚴</span>
+                                                <span>Frequent Trip Goers</span>
+                                                </button>
                                             </div>
                                             </div>
 
-                                            <div class="calc-compare m-t300">
-                                            <div class="t--subinfo">Comparison</div>
-                                            <div class="calc-compareValue" id="compareValue">—</div>
-                                            <div class="t--info" id="compareNote">Type trips to see which option is cheaper.</div>
+                                            <!-- Two-column layout (Fleet-ish) -->
+                                            <div class="calc-grid">
+                                            <!-- LEFT -->
+                                            <div class="calc-card">
+                                                <h3 class="h3">Input</h3>
+
+                                                <div class="calc-inputList">
+                                                <label class="calc-row">
+                                                    <span class="calc-labels">
+                                                    <span class="calc-name">Groceries</span>
+                                                    <span class="calc-sub">Trips per year</span>
+                                                    </span>
+                                                    <input id="groceries" class="txt" type="number" min="0" step="1" value="0">
+                                                </label>
+
+                                                <label class="calc-row">
+                                                    <span class="calc-labels">
+                                                    <span class="calc-name">Historical Towns</span>
+                                                    <span class="calc-sub">Trips per year</span>
+                                                    </span>
+                                                    <input id="historical" class="txt" type="number" min="0" step="1" value="0">
+                                                </label>
+
+                                                <label class="calc-row">
+                                                    <span class="calc-labels">
+                                                    <span class="calc-name">Coastal Towns</span>
+                                                    <span class="calc-sub">Trips per year</span>
+                                                    </span>
+                                                    <input id="coastal" class="txt" type="number" min="0" step="1" value="0">
+                                                </label>
+
+                                                <label class="calc-row">
+                                                    <span class="calc-labels">
+                                                    <span class="calc-name">Family Trips (with child)</span>
+                                                    <span class="calc-sub">Trips per year</span>
+                                                    </span>
+                                                    <input id="family" class="txt" type="number" min="0" step="1" value="0">
+                                                </label>
+                                                </div>
+
+                                                <div class="m-t300">
+                                                <button id="resetBtn" class="btn" type="button">Reset</button>
+                                                </div>
+
+                                                <p class="t--err m-t200" id="error"></p>
                                             </div>
 
-                                            <div class="calc-fixed m-t300">
-                                            <div class="calc-fixedRow">
-                                                <span>Uber Cost (fixed, no car)</span>
-                                                <strong id="uberFixed">$150.00</strong>
+                                            <!-- RIGHT -->
+                                            <div class="calc-card">
+                                                <h3 class="h3">Result</h3>
+
+                                                <div class="calc-result">
+                                                <div class="calc-resultHead">Total</div>
+                                                <div class="calc-resultHead">Car Cost</div>
+                                                <div class="calc-resultHead">No Car Cost</div>
+
+                                                <div class="calc-cell">Your total</div>
+                                                <div class="calc-cell calc-big" id="carTotal">$0.00</div>
+                                                <div class="calc-cell calc-big" id="noCarTotal">$0.00</div>
+                                                </div>
+
+                                                <div class="m-t300">
+                                                <div class="calc-miniRow">
+                                                    <span class="t--subinfo">Car formula</span>
+                                                    <span>(Var Cost × Trips) + Fixed Cost</span>
+                                                </div>
+                                                <div class="calc-miniRow">
+                                                    <span class="t--subinfo">No car formula</span>
+                                                    <span>(Public Transport × Trips) + Uber Cost</span>
+                                                </div>
+                                                </div>
+
+                                                <div class="calc-compare m-t300">
+                                                <div class="t--subinfo">Comparison</div>
+                                                <div class="calc-compareValue" id="compareValue">—</div>
+                                                <div class="t--info" id="compareNote">Type trips to see which option is cheaper.</div>
+                                                </div>
+
+                                                <div class="calc-fixed m-t300">
+                                                <div class="calc-fixedRow">
+                                                    <span>Uber Cost (fixed, no car)</span>
+                                                    <strong id="uberFixed">$150.00</strong>
+                                                </div>
+                                                <div class="calc-fixedRow">
+                                                    <span>Fixed Cost (car)</span>
+                                                    <strong id="carFixed">$2,293.00</strong>
+                                                </div>
+                                                </div>
                                             </div>
-                                            <div class="calc-fixedRow">
-                                                <span>Fixed Cost (car)</span>
-                                                <strong id="carFixed">$2,293.00</strong>
                                             </div>
-                                            </div>
-                                        </div>
-                                        <p>
-                                        See how we calculated the costs 
-                                        <a href="assumptions.html">
-                                            here.
-                                        </a>                                
-                                        </p>
+                                            <p class="m-t300">
+                                            See how we calculated the costs 
+                                            <a href="assumptions.html">
+                                                here.
+                                            </a>                                
+                                            </p>
                                         </div>
                                     </div>
 
