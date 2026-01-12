@@ -16,6 +16,10 @@ function loadHTML(id, file) {
 loadHTML("header-placeholder", "header.html");
 loadHTML("footer-placeholder", "footer.html");
 
+// Load calculator
+
+
+
 // Load lifestyle data and populate accordion
 const lifestyleData = [
   {
