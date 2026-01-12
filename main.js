@@ -26,7 +26,7 @@ const COSTS = {
 };
 
 // === Your fixed values ===
-const UBER_FIXED = 150;
+const UBER_FIXED = 1200;
 const CAR_FIXED = 2293;
 
 // === User type defaults (based on your table) ===
