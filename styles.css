@@ -72,3 +72,97 @@ padding-top: 4rem;
 .cob-accordion .b-collapsible__content {
   padding: 0 1rem 1rem 1rem;
 }
+
+/* Calculator layout: keep it “COB” (simple, roomy, not flashy) */
+.calc-user-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+}
+
+.calc-grid{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 900px){
+  .calc-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.calc-card{
+  background:#fff;
+  border:1px solid #d8d8d8;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.calc-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap: 1rem;
+  padding: .75rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.calc-row:last-child{ border-bottom:0; }
+
+.calc-labels{ display:flex; flex-direction:column; }
+.calc-name{ font-weight:700; }
+.calc-sub{ font-size:.9rem; opacity:.8; }
+
+/* Inputs: don’t fight Fleet; just make them consistent */
+.txt{
+  width: 120px;
+  padding: .4rem .5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Results table */
+.calc-result{
+  display:grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: .5rem .75rem;
+  align-items:center;
+}
+
+.calc-resultHead{
+  font-weight:700;
+  padding-bottom:.25rem;
+  border-bottom:1px solid #eee;
+}
+
+.calc-cell{ padding:.25rem 0; }
+.calc-big{ font-weight:800; font-size: 1.15rem; }
+
+.calc-miniRow{
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  padding:.25rem 0;
+}
+
+.calc-compareValue{
+  font-weight:900;
+  font-size: 1.25rem;
+  margin-top:.25rem;
+}
+
+/* Fixed cost rows */
+.calc-fixedRow{
+  display:flex;
+  justify-content:space-between;
+  padding:.4rem 0;
+  border-top:1px solid #eee;
+}
+
+/* Selected user button */
+.categoryBtn.active{
+  outline: 3px solid #091f2f;
+  outline-offset: 2px;
+}
