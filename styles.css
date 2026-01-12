@@ -73,13 +73,6 @@ padding-top: 4rem;
   padding: 0 1rem 1rem 1rem;
 }
 
-/* Calculator layout: keep it “COB” (simple, roomy, not flashy) */
-.calc-user-buttons{
-  display:flex;
-  flex-wrap:wrap;
-  gap:.5rem;
-}
-
 .calc-grid{
   display:grid;
   grid-template-columns: 1fr;
@@ -165,4 +158,41 @@ padding-top: 4rem;
 .categoryBtn.active{
   outline: 3px solid #091f2f;
   outline-offset: 2px;
+}
+
+/* Shared width container for buttons + grid */
+.calc-shell{
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+/* 4 buttons on one row, same width as the grid */
+.calc-user-buttons{
+  display: flex;
+  gap: .75rem;
+  width: 100%;
+}
+
+/* Let flex actually shrink buttons to fit */
+.categoryBtn{
+  flex: 1 1 0;
+  min-width: 0;          /* 🔑 allows shrinking */
+  text-align: left;      /* looks more COB */
+  white-space: normal;   /* 🔑 allow wrapping */
+  line-height: 1.2;
+}
+
+/* Keep emoji + text aligned */
+.categoryBtn .categoryEmoji{
+  margin-right: .5rem;
+}
+
+/* On smaller screens, wrap like COB */
+@media (max-width: 900px){
+  .calc-user-buttons{
+    flex-wrap: wrap;
+  }
+  .categoryBtn{
+    flex: 1 1 calc(50% - .75rem);
+  }
 }
