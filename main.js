@@ -148,12 +148,17 @@ function calculateAll() {
     const diff = car - noCar;
     const abs = Math.abs(diff);
 
+    // Remove previous highlight classes
+    compareNoteEl.classList.remove("cheaper-green", "cheaper-red");
+
     if (diff > 0) {
-      compareValueEl.textContent = `Car is ${money(abs)} more`;
-      compareNoteEl.textContent = "No Car is cheaper for your inputs.";
+      compareValueEl.textContent = `Car Cost is ${money(abs)} more`;
+      compareNoteEl.textContent = "Not owning a car costs less for you.";
+      compareNoteEl.classList.add("cheaper-green");
     } else if (diff < 0) {
-      compareValueEl.textContent = `Car is ${money(abs)} less`;
-      compareNoteEl.textContent = "Car is cheaper for your inputs.";
+      compareValueEl.textContent = `Car Cost is ${money(abs)} less`;
+      compareNoteEl.textContent = "Owning a car costs less for you.";
+      compareNoteEl.classList.add("cheaper-red");
     } else {
       compareValueEl.textContent = "Same cost";
       compareNoteEl.textContent = "Both options cost the same.";
@@ -164,7 +169,7 @@ function calculateAll() {
     carTotalEl.textContent = money(0);
     compareValueEl.textContent = "—";
     compareNoteEl.textContent = "Fix the input to calculate.";
-
+    compareNoteEl.classList.remove("cheaper-green", "cheaper-red");
     errorEl.textContent = err?.message || "Something went wrong.";
   }
 }

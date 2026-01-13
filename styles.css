@@ -196,3 +196,15 @@ padding-top: 4rem;
     flex: 1 1 calc(50% - .75rem);
   }
 }
+
+/* Highlight for comparison note */
+.cheaper-green {
+  background-color: #e6f9ed !important;
+  color: #217a3b !important;
+  font-weight: 900;
+}
+.cheaper-red {
+  background-color: #ffeaea !important;
+  color: #b30000 !important;
+  font-weight: 900;
+}
