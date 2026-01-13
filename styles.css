@@ -208,3 +208,41 @@ padding-top: 4rem;
   color: #b30000 !important;
   font-weight: 900;
 }
+
+/* About page team layout */
+.team-grid{
+  display: grid;
+  grid-template-columns: 1fr; /* always one column */
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.team-card{
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  padding: 1.25rem;
+}
+
+.team-photo{
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;   /* round */
+  object-fit: cover;      /* keeps face centered */
+  flex: 0 0 auto;
+  border: 2px solid #091f2f; /* COB navy */
+}
+
+.team-name{
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.team-bio{
+  margin-top: .25rem;
+  margin-bottom: 0;
+}
