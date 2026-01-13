@@ -18,6 +18,27 @@
             main {
                 padding-top: 6rem;
             }
+
+            /* styles for headline */
+            h1 {
+              color: black;
+              text-align: center;
+              font-size: 2.4rem;       /* larger header */
+              font-weight: 700;
+              margin: 12px 0;
+            }
+
+            /* styles for paragraph */
+            p {
+              color: black;
+              text-indent: 1.2em;      /* small first-line indent */
+              line-height: 1.6;        /* improve readability */
+            }
+
+            /* responsive tweaks */
+            @media (max-width: 600px) {
+              h1 { font-size: 1.8rem; }
+            }
         </style>
 
     </head>
@@ -74,6 +95,13 @@
                       <td></td>
                   </tr>
               </tbody>
+              <tfoot>
+                  <tr>
+                      <td colspan="3">
+                          Source: <a href="https://www.nasdaq.com/articles/annual-cost-owning-car-every-state" target="_blank" rel="noopener noreferrer">NASDAQ — Annual cost of owning a car (by state)</a>
+                      </td>
+                  </tr>
+              </tfoot>
           </table>
 
           <h2>Assumptions for the frequency of different trips</h2>
@@ -115,13 +143,13 @@
                       <td>0</td>
                       <td>0</td>
                       <td>6</td>
-                      <td></td>
+                      <td>7</td>
                   </tr>
               </tbody>
           </table>
 
           <p class="note">Numbers above are illustrative defaults—use scenario inputs to override these values. Please let us know if you want us to add sources (links) or make any of the values editable from the calculator UI.</p>
-                  
+                        
         </main>
 
         <div id="footer-placeholder"></div>
