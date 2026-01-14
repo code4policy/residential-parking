@@ -98,16 +98,99 @@ padding-top: 4rem;
   justify-content:space-between;
   align-items:center;
   gap: 1rem;
-  padding: .75rem 0;
-  border-bottom: 1px solid #eee;
+  padding: .75rem 1rem;
+  border-radius: 8px;
+  background:#fff;
+  border:1px solid #f0f0f0;
+  margin-bottom: .5rem;
+  transition: box-shadow .12s ease, transform .12s ease;
 }
 
-.calc-row:last-child{ border-bottom:0; }
+/* Reduce horizontal spacing for inline fieldset choice rows (e.g., radio options) */
+fieldset.calc-row {
+  justify-content: flex-start !important;
+  gap: .75rem !important;
+}
 
-.calc-labels{ display:flex; flex-direction:column; }
-.calc-name{ font-weight:700; }
-.calc-sub{ font-size:.9rem; opacity:.8; }
+/* Make individual labels compact and keep inputs inline */
+fieldset.calc-row label {
+  display: inline-flex !important;
+  align-items: center;
+  gap: .5rem;
+  margin-right: .75rem;
+  white-space: nowrap;
+}
 
+/* Prevent nested .calc-row inside fieldsets from creating overflow or nested boxes */
+fieldset.calc-row .calc-row {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0;
+  margin-top: .5rem;
+  border: 0;
+  background: transparent;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+/* For the parking choice specifically, stack options vertically */
+#parkingChoiceFieldset{
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: .5rem !important;
+  padding-left: 0 !important;
+}
+#parkingChoiceFieldset label {
+  display: flex !important;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0 !important;
+  padding-left: 0.25rem;
+}
+#parkingChoiceFieldset label small {
+  display: block;
+  margin-left: 1.5rem;
+  margin-top: .25rem;
+  color: #666;
+  font-size: .95rem;
+  font-weight: 400;
+}
+
+/* Parking option card styling */
+.parking-option { margin-bottom: .75rem; width:100%; }
+.parking-option label{ display:block; cursor:pointer; width:100%; }
+.parking-option .option-body{ display:flex; gap:1rem; align-items:center; justify-content:space-between; padding: .9rem 1rem; border:1px solid #e9e9e9; border-radius:8px; background:#fff; width:100%; box-sizing:border-box; }
+.parking-option .option-title{ font-weight:700; color:#091f2f; }
+.parking-option .option-sub{ font-size:.95rem; color:#666; margin-top:.25rem; }
+.parking-option .option-control{ display:flex; align-items:center; min-width:160px; }
+.parking-option .option-control .calc-row{ display:flex; align-items:center; width:100%; }
+.parking-option .option-control .calc-labels{ margin-right: .5rem; }
+.parking-option .option-control .txt{ margin-left:auto; width:140px; text-align:right; }
+.parking-option.selected .option-body{ border-color:#0b4b66; box-shadow:0 6px 20px rgba(11,75,102,0.06); }
+.parking-option input[type="radio"]{ margin-right:.5rem; transform:translateY(-1px); }
+
+}
+
+@media (max-width:600px){
+  fieldset.calc-row{ flex-direction:column; align-items:stretch; }
+  fieldset.calc-row label{ margin-right:0; width:100%; }
+}
+.calc-row:hover{ box-shadow: 0 6px 18px rgba(20,20,20,0.04); transform: translateY(-1px); }
+
+.calc-row:last-child{ border-bottom:0; margin-bottom:0; }
+
+.calc-row .calc-labels{ flex:1; min-width:0; }
+.calc-row .calc-name{ font-weight:700; color:#091f2f; }
+.calc-row .calc-sub{ font-size:.9rem; color:#666; }
+
+..calc-row .txt{ flex:0 0 120px; width:120px; }
+
+@media (max-width:600px){
+  .calc-row{ flex-direction:column; align-items:stretch; padding:.6rem; }
+  .calc-row .txt{ width:100%; flex:1 1 auto; }
+  .calc-row .calc-labels{ margin-bottom:.5rem; }
+}
 /* Inputs: don’t fight Fleet; just make them consistent */
 .txt{
   width: 120px;
@@ -165,6 +248,51 @@ padding-top: 4rem;
   max-width: 980px;
   margin: 0 auto;
 }
+
+/* Make the calculator intro / supporting text larger for readability */
+/* Use stronger specificity and !important to override upstream patterns styles if necessary */
+#calculator .supporting-text, .calc-shell > .supporting-text {
+  font-size: 1.25rem !important; /* ~20px */
+  line-height: 1.5 !important;
+  margin-bottom: 1rem !important;
+  font-weight: 600 !important;
+}
+
+@media (min-width: 900px) {
+  #calculator .supporting-text, .calc-shell > .supporting-text {
+    font-size: 1.375rem !important; /* ~22px on larger screens */
+  }
+}
+
+/* Top page intro paragraph (larger and slightly heavier) */
+.topic-intro-text-container .intro-text.supporting-text,
+.topic-intro-text-container .intro-text.supporting-text p {
+  font-size: 1.125rem !important; /* ~18px */
+  line-height: 1.6 !important;
+  font-weight: 600 !important;
+}
+
+@media (min-width: 900px) {
+  .topic-intro-text-container .intro-text.supporting-text,
+  .topic-intro-text-container .intro-text.supporting-text p {
+    font-size: 1.25rem !important; /* ~20px */
+  }
+}
+
+/* Explicit class to target the main intro paragraph and guarantee larger styling */
+.intro-lead {
+  margin-top: 0 !important;
+  font-size: 1.375rem !important; /* ~22px */
+  line-height: 1.6 !important;
+  font-weight: 600 !important;
+  margin-bottom: 1rem !important;
+}
+
+@media (min-width: 900px) {
+  .intro-lead { font-size: 1.5rem !important; /* ~24px */ }
+}
+
+
 
 /* 4 buttons on one row, same width as the grid */
 .calc-user-buttons{
@@ -246,3 +374,61 @@ padding-top: 4rem;
   margin-top: .25rem;
   margin-bottom: 0;
 }
+
+/* New calculator screen styles */
+.calc-screen{ display:none; }
+.calc-screen.active{ display:block; }
+
+.calc-section{ background:#fff; border:1px solid #e9e9e9; padding:1rem; border-radius:8px; margin-bottom:1rem; }
+
+/* Small form layout tweaks */
+.calc-screen .h3{ margin-top:0; }
+
+/* Screen-specific header styling for a cleaner basics step */
+#screen-basics .h3,
+#screen-car .h3,
+#screen-nocar .h3,
+#screen-results .h3 {
+  margin: 1.25rem 0 .5rem 0;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-weight: 800;
+  color: #091f2f;
+  padding-bottom: .6rem;
+  border-bottom: 1px solid #eef2f3;
+  letter-spacing: 0.2px;
+}
+#screen-basics .t--subinfo{ margin-top:.5rem; color:#556; }
+#screen-car .t--subinfo, #screen-nocar .t--subinfo { margin-top:.4rem; color:#556; }
+
+/* Results hero (two-column) */
+.results-hero{ padding: 1rem 0; }
+.results-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:1rem; align-items:stretch; }
+.result-card{ background: linear-gradient(180deg, #fff, #fbfbfc); border:1px solid #e6eef2; border-radius:10px; padding:1.25rem; box-shadow: 0 12px 30px rgba(11,75,102,0.06); display:flex; flex-direction:column; justify-content:space-between; }
+.result-title{ font-weight:700; color:#091f2f; margin-bottom:.5rem; font-size:1rem; }
+.result-amount{ font-size:2.1rem; font-weight:900; color:#0b4b66; margin-bottom:.5rem; }
+.result-sub{ font-size:.95rem; color:#575f66; display:flex; justify-content:space-between; align-items:center; }
+.result-sub-amount{ font-weight:700; color:#091f2f; }
+
+.result-diff{ margin-top:1rem; text-align:center; padding:.75rem; }
+.diff-label{ font-size:.95rem; color:#556; }
+.diff-amount{ font-size:1.4rem; font-weight:800; color:#0b4b66; margin-top:.25rem; }
+
+/* Make biggest drivers smaller and less prominent */
+.smallest-drivers .small-heading{ font-size:.95rem; margin-bottom:.25rem; color:#556; }
+.smallest-drivers .small-list{ font-size:.95rem; color:#556; margin-left:0; padding:0; list-style:none; }
+.smallest-drivers .small-list li{ margin-bottom:.35rem; display:flex; justify-content:space-between; align-items:center; padding:.2rem .4rem; border-radius:6px; }
+
+@media (max-width:800px){
+  .results-grid{ grid-template-columns: 1fr; }
+  .result-amount{ font-size:1.6rem; }
+  .diff-amount{ font-size:1.2rem; }
+}
+
+/* Small tweaks to button spacing */
+.calc-screen .m-t300{ display:flex; gap:.75rem; justify-content:flex-start; }
+
+@media (min-width:900px){
+  .calc-screen .txt{ width:160px; }
+}
+
