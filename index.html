@@ -164,36 +164,48 @@ You can explore example lifestyles—such as students, families, or frequent com
 
                                                 <!-- Screen 2 — Car option -->
                                                 <div class="calc-screen" data-screen="2" id="screen-car" hidden>
-                                                    <h3 class="h3">Do you currently own a car?</h3>
+                                                    <h3 class="h3">Car ownership costs</h3>
                                                     <form id="carOwnershipForm">
                                                         <div class="calc-section">
-                                                            <label class="calc-row">
-                                                                <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
-                                                                Yes — I already own a car
-                                                            </label>
-                                                            <label class="calc-row">
-                                                                <input type="radio" name="carOwnership" id="ownCarNo" value="no">
-                                                                No — I’m considering buying one
-                                                            </label>
-                                                        </div>
-                                                        <div id="fuelCostSection" class="calc-section" style="display:none;">
-                                                            <label class="calc-row">
-                                                                <span class="calc-labels">
-                                                                    <span class="calc-name">Average fuel/charging cost per month (USD)</span>
-                                                                    <span class="calc-sub">Enter your typical monthly average.</span>
-                                                                </span>
-                                                                <input id="fuelMonthly" class="txt" type="number" min="0" step="1">
-                                                            </label>
-                                                        </div>
-                                                        <div id="afdcSection" class="calc-section" style="display:none;">
-                                                            <p><a href="https://www.afdc.energy.gov/calc" target="_blank" id="afdcLink">Open AFDC fuel/energy cost calculator</a></p>
-                                                            <label class="calc-row">
-                                                                <span class="calc-labels">
-                                                                    <span class="calc-name">Estimated annual fuel/energy cost (USD)</span>
-                                                                    <span class="calc-sub">Use the U.S. Department of Energy’s Alternative Fuels Data Center (AFDC) calculator to estimate annual fuel or charging costs for a car you might buy. This helps us compare costs fairly.</span>
-                                                                </span>
-                                                                <input id="afdcAnnual" class="txt" type="number" min="0" step="100">
-                                                            </label>
+                                                            <div class="parking-option" id="carOwnershipOption">
+                                                                <div class="option-body">
+                                                                    <div>
+                                                                        <div class="option-title">Do you currently own a car?</div>
+                                                                    </div>
+                                                                    <div class="option-control">
+                                                                        <label style="margin-bottom: 0.25rem;">
+                                                                            <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
+                                                                            Yes — I already own a car
+                                                                        </label>
+                                                                        <label>
+                                                                            <input type="radio" name="carOwnership" id="ownCarNo" value="no">
+                                                                            No — I’m considering buying one
+                                                                        </label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="parking-option" id="fuelCostSection" style="display:none;">
+                                                                <div class="option-body">
+                                                                    <div>
+                                                                        <div class="option-title">Average fuel/charging cost per month (USD)</div>
+                                                                        <div class="option-sub">Enter your typical monthly average.</div>
+                                                                    </div>
+                                                                    <div class="option-control">
+                                                                        <input id="fuelMonthly" class="txt" type="number" min="0" step="1">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="parking-option" id="afdcSection" style="display:none;">
+                                                                <div class="option-body">
+                                                                    <div>
+                                                                        <div class="option-title">Estimated annual fuel/energy cost (USD)</div>
+                                                                        <div class="option-sub">Use the <a href='https://www.afdc.energy.gov/calc' target='_blank' id='afdcLink'>AFDC calculator</a> to estimate annual fuel or charging costs for a car you might buy.</div>
+                                                                    </div>
+                                                                    <div class="option-control">
+                                                                        <input id="afdcAnnual" class="txt" type="number" min="0" step="100">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </form>
                                                     <div class="calc-section">
