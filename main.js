@@ -241,7 +241,7 @@ const exciseTax = document.getElementById('exciseTax');
 const regInspect = document.getElementById('regInspect');
 const loanMonthly = document.getElementById('loanMonthly');
 const loanMonthsPerYear = document.getElementById('loanMonthsPerYear');
-const depreciationAnnual = document.getElementById('depreciationAnnual');
+// Removed depreciation input
 
 // Parking choice behavior (off-street or resident permit)
 function updateParkingSelectionUI(){
@@ -291,14 +291,13 @@ ownershipRadios.forEach((r) => r.addEventListener('change', () => {
   } else {
     loanFields.hidden = true;
     paidFields.hidden = false;
-    // Depreciation is fixed at $3,000 for paid-off cars
-    if (depreciationAnnual) { depreciationAnnual.value = 3000; depreciationAnnual.readOnly = true; }
+    // Removed depreciation logic
   }
   updateCarSummary();
 }));
 
 // Listen for changes and update summary live
-[afdcAnnual, parkingMonthly, residentPermitAnnual, insuranceAnnual, exciseTax, regInspect, loanMonthly, loanMonthsPerYear, depreciationAnnual].forEach((el) => {
+[afdcAnnual, parkingMonthly, residentPermitAnnual, insuranceAnnual, exciseTax, regInspect, loanMonthly, loanMonthsPerYear].forEach((el) => {
   el?.addEventListener('input', updateCarSummary);
 });
 
@@ -320,7 +319,7 @@ function updateCarSummary() {
   if (document.querySelector('input[name="ownership"]:checked')?.value === 'loan') {
     ownershipAnnual = parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12);
   } else {
-    ownershipAnnual = parseNumber(depreciationAnnual, 0);
+    // Removed depreciation from ownershipAnnual
   }
 
   const fixed = parkingAnnual + insurance + excise + reg + ownershipAnnual;
@@ -449,7 +448,7 @@ toComparisonFromNoCar?.addEventListener('click', () => {
 function showResults() {
   // Read totals
   const parkingChoice = document.querySelector('input[name="parkingChoice"]:checked')?.value;
-  const carTotal = parseNumber(afdcAnnual, 0) + (parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12) + parseNumber(insuranceAnnual, 0) + parseNumber(exciseTax, 0) + parseNumber(regInspect, 0) + (document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : parseNumber(depreciationAnnual, 0));
+  const carTotal = parseNumber(afdcAnnual, 0) + (parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12) + parseNumber(insuranceAnnual, 0) + parseNumber(exciseTax, 0) + parseNumber(regInspect, 0) + (document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : 0);
 
   // No car total
   const mbtaVal = parseNumber(document.getElementById('mbtaAnnual'), 0) ? Number(document.getElementById('mbtaAnnual').textContent.replace(/[$,]/g, '')) : 0;
@@ -474,7 +473,9 @@ function showResults() {
   breakdown.push({ label: 'Insurance', value: parseNumber(insuranceAnnual, 0) });
   breakdown.push({ label: 'Excise tax', value: parseNumber(exciseTax, 0) });
   breakdown.push({ label: 'Registration & inspection', value: parseNumber(regInspect, 0) });
-  breakdown.push({ label: document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? 'Loan payments (annual)' : 'Depreciation (annual)', value: document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : parseNumber(depreciationAnnual, 0) });
+  if (document.querySelector('input[name="ownership"]:checked')?.value === 'loan') {
+    breakdown.push({ label: 'Loan payments (annual)', value: parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) });
+  }
   breakdown.push({ label: 'MBTA annual', value: Number(document.getElementById('mbtaAnnual').textContent.replace(/[$,]/g, '')) || 0 });
   breakdown.push({ label: 'Regional bus', value: regionalVal });
   breakdown.push({ label: 'Rideshare', value: rideshareVal });
@@ -516,7 +517,7 @@ document.getElementById('startOver')?.addEventListener('click', () => {
   document.getElementById('paidFields').hidden = true;
   loanMonthly.value = 300;
   loanMonthsPerYear.value = 12;
-  depreciationAnnual.value = 3000;
+  // Removed depreciation default
 
   // No-car defaults
   document.querySelector('input[name="mbtaStrategy"][value="pass"]').checked = true;
