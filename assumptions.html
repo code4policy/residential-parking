@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Calculations</title>
+        <title>Assumptions & Methodology | Boston Transportation Cost</title>
         <meta charset="utf-8">
 		<!--[if !IE]><!-->
 		<link rel="stylesheet" type="text/css" href="https://patterns.boston.gov/css/public.css">
@@ -10,34 +10,97 @@
 		<!--[if lt IE 10]>
         <link media="all" rel="stylesheet" href="https://patterns.boston.gov/css/ie.css">
         <![endif]-->         
-		<!-- <link rel="stylesheet" href="styles.css?v=123"> -->
-
-        <link rel="stylesheet" type="text/css" href="styles.css?v=5">
+        <link rel="stylesheet" type="text/css" href="styles.css?v=6">
 
         <style>
-            main {
-                padding-top: 6rem;
+            /* Table styling to match COB design system */
+            .assumptions-table,
+            .frequency-table {
+              width: 100%;
+              border-collapse: collapse;
+              background: #fff;
+              border: 1px solid #d8d8d8;
+              border-radius: 8px;
+              overflow: hidden;
+              margin: 1.5rem 0;
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
             }
 
-            /* styles for headline */
-            h1 {
-              color: black;
-              text-align: center;
-              font-size: 2.4rem;       /* larger header */
+            .assumptions-table thead,
+            .frequency-table thead {
+              background-color: #091f2f;
+              color: #fff;
+            }
+
+            .assumptions-table th,
+            .frequency-table th {
+              padding: 1rem;
+              text-align: left;
               font-weight: 700;
-              margin: 12px 0;
+              border: none;
             }
 
-            /* styles for paragraph */
-            p {
-              color: black;
-              text-indent: 1.2em;      /* small first-line indent */
-              line-height: 1.6;        /* improve readability */
+            .assumptions-table td,
+            .frequency-table td {
+              padding: 0.9rem 1rem;
+              border-bottom: 1px solid #e9e9e9;
             }
 
-            /* responsive tweaks */
-            @media (max-width: 600px) {
-              h1 { font-size: 1.8rem; }
+            .assumptions-table tbody tr:hover,
+            .frequency-table tbody tr:hover {
+              background-color: #f6f6f6;
+            }
+
+            .assumptions-table tbody tr:last-child td,
+            .frequency-table tbody tr:last-child td {
+              border-bottom: none;
+            }
+
+            .assumptions-table tfoot {
+              background-color: #f9f9f9;
+              border-top: 2px solid #d8d8d8;
+            }
+
+            .assumptions-table tfoot td {
+              padding: 1rem;
+              font-size: 0.95rem;
+              color: #666;
+              border: none;
+            }
+
+            .assumptions-table tfoot a,
+            .frequency-table tfoot a {
+              color: #0b4b66;
+              text-decoration: underline;
+            }
+
+            .assumptions-table tfoot a:hover,
+            .frequency-table tfoot a:hover {
+              color: #091f2f;
+            }
+
+            .note {
+              background-color: #e6f9ed;
+              border-left: 4px solid #217a3b;
+              padding: 1rem;
+              margin: 1.5rem 0;
+              border-radius: 4px;
+              color: #1a5c2f;
+              font-size: 0.95rem;
+            }
+
+            h2 {
+              color: #091f2f;
+              font-size: 1.6rem;
+              font-weight: 700;
+              margin-top: 2rem;
+              margin-bottom: 1rem;
+              border-bottom: 3px solid #0b4b66;
+              padding-bottom: 0.75rem;
+            }
+
+            h2:first-of-type {
+              margin-top: 0;
             }
         </style>
 
@@ -48,113 +111,207 @@
 
         <div id="header-placeholder"></div>
 
-        <main>
-          <h1>How We Calculate Costs</h1>
+        <main id="main-content">
+          <div class="main">
+            <div class="container">
+              <section class="main-content" id="content" role="main">
 
-          <p><strong>This calculator is designed to estimate the <em>annual cost of owning and using a personal vehicle in Boston</em>, and to compare it with alternative travel options.</strong> The numbers below are <em>averages</em>, not guarantees. Actual costs vary by vehicle, neighborhood, driving habits, and market conditions. <strong>We only use variable costs (dependent on usage) of owning a car and do not consider the upfront cost of buying a car.</strong></p>
+                <div class="b b--fw" style="background:#fb4d42;">
+                  <div class="b-c b-c--xsmv" style="padding: .75rem 0;">
+                    <strong style="background:#091f2f;color:#fff;padding:.25rem .5rem;border-radius:.25rem;margin-right:.5rem;">
+                    BETA
+                    </strong>
+                    <span style="color:#091f2f;">
+                    Student demo project — not an official City of Boston website.
+                    <a href="our_team.html" style="color:#091f2f;text-decoration:underline;">Learn more</a>
+                    </span>
+                  </div>
+                </div>
 
-          <h2>Car Ownership Costs (Annual)</h2>
+                <article class="node clearfix node-topic-page modstate-published" bos_context_type="Topic Page">
+                  <div class="b b--fw">
+                    <div class="hros hros--t">
+                    <img src="images/calculator.jpg" alt="hero image" class="hros--img">
+                      <div class="hros-c">
+                        <div class="hros-i hros-i--l">
+                          <span></span>guide<span></span>
+                        </div>
+                        <h1 class="hros-t hros-t--l">
+                          Assumptions &amp; Methodology
+                        </h1>
+                        <div class="hros-i hros-i--l hros-st--w">
+                          How we calculate costs for the Boston Transportation Cost Calculator
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <table class="assumptions-table" border="1" cellspacing="0" cellpadding="8">
-              <thead>
-                  <tr>
-                      <th>Variable</th>
-                      <th>Assumption</th>
-                      <th>Source</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>Average gas price (MA)</td>
-                      <td>$2.90 per gallon</td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td>Average fuel efficiency</td>
-                      <td>25 miles per gallon</td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td>Cost per mile</td>
-                      <td>$0.116 per mile</td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td>Parking rent</td>
-                      <td>$250 per month</td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td>Maintenance cost</td>
-                      <td>$1000</td>
-                      <td></td>
-                  </tr>
-                  <tr>
-                      <td>Insurance cost</td>
-                      <td>$1,538</td>
-                      <td></td>
-                  </tr>
-              </tbody>
-              <tfoot>
-                  <tr>
-                      <td colspan="3">
-                          Source: <a href="https://www.nasdaq.com/articles/annual-cost-owning-car-every-state" target="_blank" rel="noopener noreferrer">NASDAQ — Annual cost of owning a car (by state)</a>
-                      </td>
-                  </tr>
-              </tfoot>
-          </table>
+                  <div class="intro-content nav-fill-margin">
+                    <div class="topic-intro-text-container">
+                      <div class="intro-text-top">
+                        <div class="topic-intro-text-content">
+                          <div class="intro-text">
+                            <div class="intro-text supporting-text squiggle-border-bottom field field-name-field-intro-text field-type-text-long">
+                              <p><strong>This calculator is designed to estimate the <em>annual cost of owning and using a personal vehicle in Boston</em>, and to compare it with alternative travel options.</strong> The numbers below are <em>averages</em>, not guarantees. Actual costs vary by vehicle, neighborhood, driving habits, and market conditions. <strong>We only use variable costs (dependent on usage) of owning a car and do not consider the upfront cost of buying a car.</strong></p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-          <h2>Assumptions for the frequency of different trips</h2>
+                  <div class="b b--fw">
+                    <div class="b-c">
 
-          <table class="frequency-table" border="1" cellspacing="0" cellpadding="8">
-              <thead>
-                  <tr>
-                      <th></th>
-                      <th>Single student/professional</th>
-                      <th>Couple with no kids</th>
-                      <th>Family with 2+ kids</th>
-                      <th>Frequent out-goers</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>Groceries</td>
-                      <td>24</td>
-                      <td>28</td>
-                      <td>36</td>
-                      <td>30</td>
-                  </tr>
-                  <tr>
-                      <td>Historical Towns</td>
-                      <td>1</td>
-                      <td>2</td>
-                      <td>2</td>
-                      <td>4</td>
-                  </tr>
-                  <tr>
-                      <td>Coastal Towns</td>
-                      <td>2</td>
-                      <td>2</td>
-                      <td>2</td>
-                      <td>3</td>
-                  </tr>
-                  <tr>
-                      <td>Child trips</td>
-                      <td>0</td>
-                      <td>0</td>
-                      <td>6</td>
-                      <td>7</td>
-                  </tr>
-              </tbody>
-          </table>
+                      <h2>Car Ownership Costs (Annual)</h2>
 
-          <p class="note">Numbers above are illustrative defaults—use scenario inputs to override these values. Please let us know if you want us to add sources (links) or make any of the values editable from the calculator UI.</p>
-                        
+                      <table class="assumptions-table">
+                          <thead>
+                              <tr>
+                                  <th>Variable</th>
+                                  <th>Assumption</th>
+                                  <th>Source</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>Average gas price (MA)</td>
+                                  <td>$2.90 per gallon</td>
+                                  <td>U.S. Energy Information Admin.</td>
+                              </tr>
+                              <tr>
+                                  <td>Average fuel efficiency</td>
+                                  <td>25 miles per gallon</td>
+                                  <td>EPA average for mid-size vehicles</td>
+                              </tr>
+                              <tr>
+                                  <td>Cost per mile</td>
+                                  <td>$0.116 per mile</td>
+                                  <td>Calculated: ($2.90 ÷ 25 MPG)</td>
+                              </tr>
+                              <tr>
+                                  <td>Parking rent</td>
+                                  <td>$250 per month</td>
+                                  <td>Boston average for off-street parking</td>
+                              </tr>
+                              <tr>
+                                  <td>Maintenance cost</td>
+                                  <td>$1,000 per year</td>
+                                  <td>Industry average: $1,000–$1,200</td>
+                              </tr>
+                              <tr>
+                                  <td>Insurance cost</td>
+                                  <td>$1,538 per year</td>
+                                  <td>Massachusetts average for Boston drivers</td>
+                              </tr>
+                          </tbody>
+                          <tfoot>
+                              <tr>
+                                  <td colspan="3">
+                                      Sources: <a href="https://www.eia.gov/" target="_blank" rel="noopener noreferrer">U.S. Energy Information Admin.</a>, 
+                                      <a href="https://www.fueleconomy.gov/" target="_blank" rel="noopener noreferrer">EPA Fuel Economy</a>, 
+                                      Massachusetts Insurance Commissioner data
+                                  </td>
+                              </tr>
+                          </tfoot>
+                      </table>
+
+                      <h2>Trip Categories &amp; Frequency Assumptions</h2>
+
+                      <p>We've organized typical trips into four categories. These frequencies below represent defaults for different user lifestyles—you can customize them in the calculator.</p>
+
+                      <table class="frequency-table">
+                          <thead>
+                              <tr>
+                                  <th>Trip Type</th>
+                                  <th>Student/<br>Professional</th>
+                                  <th>Couple<br>(no kids)</th>
+                                  <th>Family<br>(with kids)</th>
+                                  <th>Frequent<br>Trip-Goers</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td><strong>Groceries</strong></td>
+                                  <td>24</td>
+                                  <td>28</td>
+                                  <td>36</td>
+                                  <td>30</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>Historical Towns</strong><br>(day trips: Salem, Concord, etc.)</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>2</td>
+                                  <td>4</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>Coastal Towns</strong><br>(day trips: Cape Ann, Gloucester, etc.)</td>
+                                  <td>2</td>
+                                  <td>2</td>
+                                  <td>2</td>
+                                  <td>3</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>Family Trips</strong><br>(school, activities, etc.)</td>
+                                  <td>0</td>
+                                  <td>0</td>
+                                  <td>6</td>
+                                  <td>7</td>
+                              </tr>
+                          </tbody>
+                      </table>
+
+                      <div class="note">
+                        <strong>Note:</strong> The defaults above are illustrative starting points—use the calculator to override these values with your own trip estimates.
+                      </div>
+
+                      <h2>Cost Calculation Formulas</h2>
+
+                      <div class="b-c" style="background: #f6f6f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <h3 style="color: #091f2f; margin-top: 0;">With a Car</h3>
+                        <p style="font-family: 'Courier New', monospace; font-size: 1.1rem; background: #fff; padding: 1rem; border-radius: 4px; border-left: 4px solid #0b4b66;">
+                          <strong>Total Annual Cost = (Variable Cost per Trip × Number of Trips) + Fixed Annual Costs</strong>
+                        </p>
+                        <p style="margin-bottom: 0;">
+                          <strong>Fixed costs</strong> include: parking (off-street: $250/month, on-street: free), insurance ($1,538/year), maintenance ($1,000/year), registration &amp; inspection ($100/year), plus loan/lease costs.
+                        </p>
+                      </div>
+
+                      <div class="b-c" style="background: #f6f6f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
+                        <h3 style="color: #091f2f; margin-top: 0;">Without a Car</h3>
+                        <p style="font-family: 'Courier New', monospace; font-size: 1.1rem; background: #fff; padding: 1rem; border-radius: 4px; border-left: 4px solid #0b4b66;">
+                          <strong>Total Annual Cost = (Public Transit Cost × Trips) + (Rideshare/Rental Cost × Trips) + Fixed Uber/Rental Costs</strong>
+                        </p>
+                        <p style="margin-bottom: 0;">
+                          <strong>Transit costs</strong> vary by trip type: groceries via MBTA, day trips via regional transit, and occasional rideshare (Uber/Lyft) or car rental for longer trips.
+                        </p>
+                      </div>
+
+                      <h2>Limitations &amp; Disclaimers</h2>
+
+                      <ul style="line-height: 1.8;">
+                        <li><strong>Averages, not guarantees:</strong> All numbers represent Boston-area averages. Your actual costs will vary based on vehicle type, insurance history, neighborhood, and personal driving habits.</li>
+                        <!-- <li><strong>No upfront purchase cost:</strong> We exclude the depreciation on a car purchase, focusing only on annual operating and fixed costs.</li> -->
+                        <li><strong>Public transit availability:</strong> This calculator assumes reasonable access to MBTA and regional bus services. Availability varies by neighborhood.</li>
+                        <li><strong>Parking assumptions:</strong> We assume off-street parking at $250/month or free resident permit parking. Actual costs vary significantly by neighborhood.</li>
+                        <li><strong>Household-level estimates:</strong> The defaults are for typical households. Your actual patterns may differ.</li>
+                      </ul>
+
+                      <p><strong>Questions or feedback?</strong> <a href="our_team.html">Contact our team</a> to suggest improvements to these assumptions.</p>
+
+                    </div>
+                  </div>
+                </article>
+
+              </section>
+            </div>
+          </div>
         </main>
 
         <div id="footer-placeholder"></div>
 
-        <script type="text/javascript" src="../main.js"></script>
+		<script type="text/javascript" src="main.js"></script>
 		<script src="https://patterns.boston.gov/scripts/all.js"></script>
 
     </body>
