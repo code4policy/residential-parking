@@ -66,7 +66,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="p-b700 no-sidebar">
+							<div class="no-sidebar">
 								<div class="sub-nav-trigger ssm-trigger drawer-trigger" role="button" aria-controls="topic-nav" aria-expanded="false" tabindex="0" aria-hidden="true">
 									<div class="ssm-chevron">
 										<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 18" style="enable-background:new 0 0 26 18;" xml:space="preserve">
@@ -86,8 +86,7 @@
 												<div>
 													<div style="margin-top: 00 px; margin-bottom: -75px;">
 														<p class="intro-lead">Living in Boston, a car can be a convenience—or a major expense. This page helps you compare the true cost of life with a car versus without one, based on how you actually get around.
-
-You can explore example lifestyles—such as students, families, or frequent commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
+                                                        You can explore example lifestyles—such as students, families, or frequent commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
 													</div>
 												</div>
 											</div>
@@ -175,11 +174,11 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                                     <div class="option-control">
                                                                         <label style="margin-bottom: 0.25rem;">
                                                                             <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
-                                                                            Yes — I already own a car
+                                                                            Yes
                                                                         </label>
                                                                         <label>
                                                                             <input type="radio" name="carOwnership" id="ownCarNo" value="no">
-                                                                            No — I’m considering buying one
+                                                                            No
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -226,8 +225,9 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                                             <label class="calc-row">
                                                                                 <span class="calc-labels">
                                                                                     <span class="calc-name">Monthly parking cost (USD)</span>
+                                                                                    <input id="parkingMonthly" class="txt" type="number" min="0" step="50" value="250">
                                                                                 </span>
-                                                                                <input id="parkingMonthly" class="txt" type="number" min="0" step="50" value="250">
+                                                                                
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -246,8 +246,9 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                                             <label class="calc-row">
                                                                                 <span class="calc-labels">
                                                                                     <span class="calc-name">Resident permit annual (USD)</span>
+                                                                                    <input id="residentPermitAnnual" class="txt" type="number" min="0" step="100" value="0" readonly>
                                                                                 </span>
-                                                                                <input id="residentPermitAnnual" class="txt" type="number" min="0" step="100" value="0" readonly>
+                                                                                
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -439,7 +440,7 @@ You can explore example lifestyles—such as students, families, or frequent com
                                             <div id="calcStepper">
                                                     <h3 class="h3 m-t400 m-b400">Next, let's compare your options with an AI agent!</h3>
                                                     <iframe src="https://boston-agent--artahseenjahan.replit.app" style="width: 100%; height: 800px; border: none;"></iframe>
-                                                    <strong class="m-t300">DISCLAIMER: AI-generated content may not always reflect the most current information or policies. Please verify any critical information independently.</strong>
+                                                    <strong class="m-t300"><em>DISCLAIMER: AI-generated content may not always reflect the most current information or policies. Please verify any critical information independently.</em></strong>
                                             </div>
                                         </div>
                                     </div>
