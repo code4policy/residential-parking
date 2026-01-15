@@ -240,6 +240,38 @@ document.getElementById('backFromNoCar')?.addEventListener('click', () => showSc
 
 // Car screen interactions
 const afdcAnnual = document.getElementById('afdcAnnual');
+const fuelMonthly = document.getElementById('fuelMonthly');
+const carOwnershipYes = document.getElementById('ownCarYes');
+const carOwnershipNo = document.getElementById('ownCarNo');
+const fuelCostSection = document.getElementById('fuelCostSection');
+const afdcSection = document.getElementById('afdcSection');
+const carOwnershipForm = document.getElementById('carOwnershipForm');
+
+function updateCarOwnershipUI() {
+  if (!carOwnershipYes || !carOwnershipNo || !fuelCostSection || !afdcSection) return;
+  if (carOwnershipYes.checked) {
+    fuelCostSection.style.display = '';
+    afdcSection.style.display = 'none';
+    // Set afdcAnnual to 0 and disable
+    if (afdcAnnual) { afdcAnnual.value = ''; afdcAnnual.disabled = true; }
+    if (fuelMonthly) fuelMonthly.disabled = false;
+  } else if (carOwnershipNo.checked) {
+    fuelCostSection.style.display = 'none';
+    afdcSection.style.display = '';
+    // Set fuelMonthly to 0 and disable
+    if (fuelMonthly) { fuelMonthly.value = ''; fuelMonthly.disabled = true; }
+    if (afdcAnnual) afdcAnnual.disabled = false;
+  } else {
+    fuelCostSection.style.display = 'none';
+    afdcSection.style.display = 'none';
+    if (afdcAnnual) afdcAnnual.disabled = true;
+    if (fuelMonthly) fuelMonthly.disabled = true;
+  }
+}
+
+if (carOwnershipYes) carOwnershipYes.addEventListener('change', updateCarOwnershipUI);
+if (carOwnershipNo) carOwnershipNo.addEventListener('change', updateCarOwnershipUI);
+updateCarOwnershipUI();
 const parkingMonthly = document.getElementById('parkingMonthly');
 const residentPermitAnnual = document.getElementById('residentPermitAnnual');
 const parkingOffstreetRow = document.getElementById('parkingOffstreetRow');
@@ -316,7 +348,13 @@ function parseNumber(el, fallback = 0) {
 }
 
 function updateCarSummary() {
-  const varAnnual = parseNumber(afdcAnnual, 0);
+  // Determine which cost to use based on ownership
+  let varAnnual = 0;
+  if (carOwnershipYes && carOwnershipYes.checked && fuelMonthly) {
+    varAnnual = Number(fuelMonthly.value) * 12 || 0;
+  } else if (carOwnershipNo && carOwnershipNo.checked && afdcAnnual) {
+    varAnnual = parseNumber(afdcAnnual, 0);
+  }
   const parkingChoice = document.querySelector('input[name="parkingChoice"]:checked')?.value;
   const parkingAnnual = parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12;
   const insurance = parseNumber(insuranceAnnual, 0);

@@ -164,19 +164,38 @@ You can explore example lifestyles—such as students, families, or frequent com
 
                                                 <!-- Screen 2 — Car option -->
                                                 <div class="calc-screen" data-screen="2" id="screen-car" hidden>
-                                                    <h3 class="h3">Now let's estimate your car costs!</h3>
-
-                                                    <div class="calc-section">
-                                                        <h4>Visit this website by the US Department of Energy to calculate costs of a car that you might have in mind. Then enter you final output below.</h4>
-                                                        <p><a href="https://www.afdc.energy.gov/calc" target="_blank" id="afdcLink">Open AFDC calculator</a></p>
-                                                        <label class="calc-row">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Paste AFDC annual cost result (USD)</span>
-                                                            </span>
-                                                            <input id="afdcAnnual" class="txt" type="number" min="0" step="100" value="0">
-                                                        </label>
-                                                    </div>
-
+                                                    <h3 class="h3">Do you currently own a car?</h3>
+                                                    <form id="carOwnershipForm">
+                                                        <div class="calc-section">
+                                                            <label class="calc-row">
+                                                                <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
+                                                                Yes — I already own a car
+                                                            </label>
+                                                            <label class="calc-row">
+                                                                <input type="radio" name="carOwnership" id="ownCarNo" value="no">
+                                                                No — I’m considering buying one
+                                                            </label>
+                                                        </div>
+                                                        <div id="fuelCostSection" class="calc-section" style="display:none;">
+                                                            <label class="calc-row">
+                                                                <span class="calc-labels">
+                                                                    <span class="calc-name">Average fuel/charging cost per month (USD)</span>
+                                                                    <span class="calc-sub">Enter your typical monthly average.</span>
+                                                                </span>
+                                                                <input id="fuelMonthly" class="txt" type="number" min="0" step="1">
+                                                            </label>
+                                                        </div>
+                                                        <div id="afdcSection" class="calc-section" style="display:none;">
+                                                            <p><a href="https://www.afdc.energy.gov/calc" target="_blank" id="afdcLink">Open AFDC fuel/energy cost calculator</a></p>
+                                                            <label class="calc-row">
+                                                                <span class="calc-labels">
+                                                                    <span class="calc-name">Estimated annual fuel/energy cost (USD)</span>
+                                                                    <span class="calc-sub">Use the U.S. Department of Energy’s Alternative Fuels Data Center (AFDC) calculator to estimate annual fuel or charging costs for a car you might buy. This helps us compare costs fairly.</span>
+                                                                </span>
+                                                                <input id="afdcAnnual" class="txt" type="number" min="0" step="100">
+                                                            </label>
+                                                        </div>
+                                                    </form>
                                                     <div class="calc-section">
                                                         <h4>Boston fixed costs</h4>
 
