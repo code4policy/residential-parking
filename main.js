@@ -221,14 +221,22 @@ function showScreen(id) {
 // Basic screen next button
 const toStep2Btn = document.getElementById('toStep2');
 toStep2Btn?.addEventListener('click', () => {
-  const carChoice = document.querySelector('input[name="carChoice"]:checked')?.value;
-  if (carChoice === 'car') showScreen('screen-car');
-  else showScreen('screen-nocar');
+  showScreen('screen-car'); // screen 2
+});
+
+const toNoCarBtn = document.getElementById('toComparisonFromCar');
+toNoCarBtn?.addEventListener('click', () => {
+  showScreen('screen-nocar'); // screen 3
+});
+
+const toResultsBtn = document.getElementById('toComparisonFromNoCar');
+toResultsBtn?.addEventListener('click', () => {
+  showResults();
 });
 
 // Back buttons
 document.getElementById('backFromCar')?.addEventListener('click', () => showScreen('screen-basics'));
-document.getElementById('backFromNoCar')?.addEventListener('click', () => showScreen('screen-basics'));
+document.getElementById('backFromNoCar')?.addEventListener('click', () => showScreen('screen-car'));
 
 // Car screen interactions
 const afdcAnnual = document.getElementById('afdcAnnual');
@@ -430,20 +438,7 @@ function updateNoCarSummary() {
 }
 
 // Comparison navigation
-const toComparisonFromCar = document.getElementById('toComparisonFromCar');
-const toComparisonFromNoCar = document.getElementById('toComparisonFromNoCar');
-
-toComparisonFromCar?.addEventListener('click', () => {
-  updateCarSummary();
-  updateNoCarSummary();
-  showResults();
-});
-
-toComparisonFromNoCar?.addEventListener('click', () => {
-  updateCarSummary();
-  updateNoCarSummary();
-  showResults();
-});
+// Navigation is now strictly 1 → 2 → 3 → final. Old comparison navigation removed.
 
 function showResults() {
   // Read totals
