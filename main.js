@@ -221,17 +221,57 @@ function showScreen(id) {
 // Basic screen next button
 const toStep2Btn = document.getElementById('toStep2');
 toStep2Btn?.addEventListener('click', () => {
-  const carChoice = document.querySelector('input[name="carChoice"]:checked')?.value;
-  if (carChoice === 'car') showScreen('screen-car');
-  else showScreen('screen-nocar');
+  showScreen('screen-car'); // screen 2
+});
+
+const toNoCarBtn = document.getElementById('toComparisonFromCar');
+toNoCarBtn?.addEventListener('click', () => {
+  showScreen('screen-nocar'); // screen 3
+});
+
+const toResultsBtn = document.getElementById('toComparisonFromNoCar');
+toResultsBtn?.addEventListener('click', () => {
+  showResults();
 });
 
 // Back buttons
 document.getElementById('backFromCar')?.addEventListener('click', () => showScreen('screen-basics'));
-document.getElementById('backFromNoCar')?.addEventListener('click', () => showScreen('screen-basics'));
+document.getElementById('backFromNoCar')?.addEventListener('click', () => showScreen('screen-car'));
 
 // Car screen interactions
 const afdcAnnual = document.getElementById('afdcAnnual');
+const fuelMonthly = document.getElementById('fuelMonthly');
+const carOwnershipYes = document.getElementById('ownCarYes');
+const carOwnershipNo = document.getElementById('ownCarNo');
+const fuelCostSection = document.getElementById('fuelCostSection');
+const afdcSection = document.getElementById('afdcSection');
+const carOwnershipForm = document.getElementById('carOwnershipForm');
+
+function updateCarOwnershipUI() {
+  if (!carOwnershipYes || !carOwnershipNo || !fuelCostSection || !afdcSection) return;
+  if (carOwnershipYes.checked) {
+    fuelCostSection.style.display = '';
+    afdcSection.style.display = 'none';
+    // Set afdcAnnual to 0 and disable
+    if (afdcAnnual) { afdcAnnual.value = ''; afdcAnnual.disabled = true; }
+    if (fuelMonthly) fuelMonthly.disabled = false;
+  } else if (carOwnershipNo.checked) {
+    fuelCostSection.style.display = 'none';
+    afdcSection.style.display = '';
+    // Set fuelMonthly to 0 and disable
+    if (fuelMonthly) { fuelMonthly.value = ''; fuelMonthly.disabled = true; }
+    if (afdcAnnual) afdcAnnual.disabled = false;
+  } else {
+    fuelCostSection.style.display = 'none';
+    afdcSection.style.display = 'none';
+    if (afdcAnnual) afdcAnnual.disabled = true;
+    if (fuelMonthly) fuelMonthly.disabled = true;
+  }
+}
+
+if (carOwnershipYes) carOwnershipYes.addEventListener('change', updateCarOwnershipUI);
+if (carOwnershipNo) carOwnershipNo.addEventListener('change', updateCarOwnershipUI);
+updateCarOwnershipUI();
 const parkingMonthly = document.getElementById('parkingMonthly');
 const residentPermitAnnual = document.getElementById('residentPermitAnnual');
 const parkingOffstreetRow = document.getElementById('parkingOffstreetRow');
@@ -241,7 +281,7 @@ const exciseTax = document.getElementById('exciseTax');
 const regInspect = document.getElementById('regInspect');
 const loanMonthly = document.getElementById('loanMonthly');
 const loanMonthsPerYear = document.getElementById('loanMonthsPerYear');
-const depreciationAnnual = document.getElementById('depreciationAnnual');
+// Removed depreciation input
 
 // Parking choice behavior (off-street or resident permit)
 function updateParkingSelectionUI(){
@@ -291,14 +331,13 @@ ownershipRadios.forEach((r) => r.addEventListener('change', () => {
   } else {
     loanFields.hidden = true;
     paidFields.hidden = false;
-    // Depreciation is fixed at $3,000 for paid-off cars
-    if (depreciationAnnual) { depreciationAnnual.value = 3000; depreciationAnnual.readOnly = true; }
+    // Removed depreciation logic
   }
   updateCarSummary();
 }));
 
 // Listen for changes and update summary live
-[afdcAnnual, parkingMonthly, residentPermitAnnual, insuranceAnnual, exciseTax, regInspect, loanMonthly, loanMonthsPerYear, depreciationAnnual].forEach((el) => {
+[afdcAnnual, parkingMonthly, residentPermitAnnual, insuranceAnnual, exciseTax, regInspect, loanMonthly, loanMonthsPerYear].forEach((el) => {
   el?.addEventListener('input', updateCarSummary);
 });
 
@@ -309,7 +348,13 @@ function parseNumber(el, fallback = 0) {
 }
 
 function updateCarSummary() {
-  const varAnnual = parseNumber(afdcAnnual, 0);
+  // Determine which cost to use based on ownership
+  let varAnnual = 0;
+  if (carOwnershipYes && carOwnershipYes.checked && fuelMonthly) {
+    varAnnual = Number(fuelMonthly.value) * 12 || 0;
+  } else if (carOwnershipNo && carOwnershipNo.checked && afdcAnnual) {
+    varAnnual = parseNumber(afdcAnnual, 0);
+  }
   const parkingChoice = document.querySelector('input[name="parkingChoice"]:checked')?.value;
   const parkingAnnual = parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12;
   const insurance = parseNumber(insuranceAnnual, 0);
@@ -320,7 +365,7 @@ function updateCarSummary() {
   if (document.querySelector('input[name="ownership"]:checked')?.value === 'loan') {
     ownershipAnnual = parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12);
   } else {
-    ownershipAnnual = parseNumber(depreciationAnnual, 0);
+    // Removed depreciation from ownershipAnnual
   }
 
   const fixed = parkingAnnual + insurance + excise + reg + ownershipAnnual;
@@ -333,93 +378,48 @@ function updateCarSummary() {
 }
 
 // No-car interactions
-const mbtaTripsPerMonth = document.getElementById('mbtaTripsPerMonth');
-const mbtaPassPrice = document.getElementById('mbtaPassPrice');
-const mbtaFare = document.getElementById('mbtaFare');
-const mbtaAutoCheapest = document.getElementById('mbtaAutoCheapest');
+const mbtaBusTripsPerMonth = document.getElementById('mbtaBusTripsPerMonth');
 
-const regionalTown = document.getElementById('regionalTown');
-const regionalTripsPerYear = document.getElementById('regionalTripsPerYear');
-const regionalFare = document.getElementById('regionalFare');
+const regionalBusTripsPerMonth = document.getElementById('regionalBusTripsPerMonth');
 
-const rideshareTripsPerMonth = document.getElementById('rideshareTripsPerMonth');
-const rideshareAvgCost = document.getElementById('rideshareAvgCost');
-const rideshareMultiplier = document.getElementById('rideshareMultiplier');
+const rideshareMonthlySpend = document.getElementById('rideshareMonthlySpend');
 
-const rentalChoiceRadios = document.querySelectorAll('input[name="rentalChoice"]');
-const rentalDaysPerYear = document.getElementById('rentalDaysPerYear');
-const rentalWeekendsPerYear = document.getElementById('rentalWeekendsPerYear');
-const rentalDaysPerWeekend = document.getElementById('rentalDaysPerWeekend');
-const rentalDailyCost = document.getElementById('rentalDailyCost');
-const rentalFuelPerDay = document.getElementById('rentalFuelPerDay');
+const rentalTripsPerYear = document.getElementById('rentalTripsPerYear');
 
 // MBTA strategy
-document.querySelectorAll('input[name="mbtaStrategy"]').forEach((r) => r.addEventListener('change', () => {
-  const strategy = document.querySelector('input[name="mbtaStrategy"]:checked')?.value;
-  document.getElementById('mbtaPassRow').hidden = strategy !== 'pass';
-  document.getElementById('mbtaPayRow').hidden = strategy !== 'pay';
-  updateNoCarSummary();
-}));
+// MBTA strategy removed; only bus trips per month input is used now.
 
 // Rental choice
-rentalChoiceRadios.forEach((r) => r.addEventListener('change', () => {
-  const val = document.querySelector('input[name="rentalChoice"]:checked')?.value;
-  document.getElementById('rentalDaysRow').hidden = val !== 'days';
-  document.getElementById('rentalWeekendsRow').hidden = val !== 'weekends';
-  updateNoCarSummary();
-}));
+// Rental choice logic removed; only trips per year input is used now.
 
-// Regional town fare prefill map
-const regionalFareMap = {
-  quincy: 2.25,
-  newton: 2.75,
-  wellesley: 3.25,
-  lynn: 3.00,
-  other: 2.50,
-  boston: 2.40,
-};
-
-regionalTown?.addEventListener('change', () => {
-  const val = regionalTown.value;
-  const pre = regionalFareMap[val] ?? 2.5;
-  regionalFare.value = pre;
-  updateNoCarSummary();
-});
+// Regional bus town/fare logic removed; only trips per month input is used now.
 
 // Live updates
-[mbtaTripsPerMonth, mbtaPassPrice, mbtaFare, mbtaAutoCheapest, regionalTripsPerYear, regionalFare, rideshareTripsPerMonth, rideshareAvgCost, rideshareMultiplier, rentalDaysPerYear, rentalWeekendsPerYear, rentalDaysPerWeekend, rentalDailyCost, rentalFuelPerDay].forEach((el) => {
+[mbtaBusTripsPerMonth, regionalBusTripsPerMonth, rideshareMonthlySpend, rentalTripsPerYear].forEach((el) => {
   el?.addEventListener('input', updateNoCarSummary);
   el?.addEventListener('change', updateNoCarSummary);
 });
 
 function updateNoCarSummary() {
-  // MBTA
-  const tripsMonth = parseNumber(mbtaTripsPerMonth, 0);
-  const passPrice = parseNumber(mbtaPassPrice, 0);
-  const fare = parseNumber(mbtaFare, 0);
+  // MBTA Bus logic: if trips > 40, $90/month, else trips * $1.70/month
+  const tripsMonth = parseNumber(mbtaBusTripsPerMonth, 0);
   let mbtaAnnual = 0;
-  const strategy = document.querySelector('input[name="mbtaStrategy"]:checked')?.value;
-  if (strategy === 'pass') {
-    mbtaAnnual = passPrice * 12;
+  if (tripsMonth > 40) {
+    mbtaAnnual = 90 * 12;
   } else {
-    mbtaAnnual = tripsMonth * fare * 12;
-  }
-  if (mbtaAutoCheapest?.checked) {
-    const pass12 = passPrice * 12;
-    const pay12 = tripsMonth * fare * 12;
-    mbtaAnnual = Math.min(pass12, pay12);
+    mbtaAnnual = tripsMonth * 1.70 * 12;
   }
 
-  const regionalAnnual = parseNumber(regionalTripsPerYear, 0) * parseNumber(regionalFare, 0);
-  const rideshareAnnual = parseNumber(rideshareTripsPerMonth, 0) * parseNumber(rideshareAvgCost, 0) * parseNumber(rideshareMultiplier, 1) * 12;
+  // Regional bus logic: regional cost = trips * $7 * 12
+  const regionalTripsMonth = parseNumber(regionalBusTripsPerMonth, 0);
+  const regionalAnnual = regionalTripsMonth * 7 * 12;
 
-  let rentalAnnual = 0;
-  const rChoice = document.querySelector('input[name="rentalChoice"]:checked')?.value;
-  if (rChoice === 'days') {
-    rentalAnnual = parseNumber(rentalDaysPerYear, 0) * (parseNumber(rentalDailyCost, 0) + parseNumber(rentalFuelPerDay, 0));
-  } else {
-    rentalAnnual = parseNumber(rentalWeekendsPerYear, 0) * parseNumber(rentalDaysPerWeekend, 1) * (parseNumber(rentalDailyCost, 0) + parseNumber(rentalFuelPerDay, 0));
-  }
+  // Rideshare: use monthly spend directly
+  const rideshareAnnual = parseNumber(rideshareMonthlySpend, 0) * 12;
+
+  // Rental cars: use trips per year × $150
+  const rentalTrips = parseNumber(rentalTripsPerYear, 0);
+  const rentalAnnual = rentalTrips * 150;
 
   document.getElementById('mbtaAnnual').textContent = money(mbtaAnnual);
   document.getElementById('regionalAnnual').textContent = money(regionalAnnual);
@@ -431,25 +431,12 @@ function updateNoCarSummary() {
 }
 
 // Comparison navigation
-const toComparisonFromCar = document.getElementById('toComparisonFromCar');
-const toComparisonFromNoCar = document.getElementById('toComparisonFromNoCar');
-
-toComparisonFromCar?.addEventListener('click', () => {
-  updateCarSummary();
-  updateNoCarSummary();
-  showResults();
-});
-
-toComparisonFromNoCar?.addEventListener('click', () => {
-  updateCarSummary();
-  updateNoCarSummary();
-  showResults();
-});
+// Navigation is now strictly 1 → 2 → 3 → final. Old comparison navigation removed.
 
 function showResults() {
   // Read totals
   const parkingChoice = document.querySelector('input[name="parkingChoice"]:checked')?.value;
-  const carTotal = parseNumber(afdcAnnual, 0) + (parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12) + parseNumber(insuranceAnnual, 0) + parseNumber(exciseTax, 0) + parseNumber(regInspect, 0) + (document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : parseNumber(depreciationAnnual, 0));
+  const carTotal = parseNumber(afdcAnnual, 0) + (parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12) + parseNumber(insuranceAnnual, 0) + parseNumber(exciseTax, 0) + parseNumber(regInspect, 0) + (document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : 0);
 
   // No car total
   const mbtaVal = parseNumber(document.getElementById('mbtaAnnual'), 0) ? Number(document.getElementById('mbtaAnnual').textContent.replace(/[$,]/g, '')) : 0;
@@ -474,7 +461,9 @@ function showResults() {
   breakdown.push({ label: 'Insurance', value: parseNumber(insuranceAnnual, 0) });
   breakdown.push({ label: 'Excise tax', value: parseNumber(exciseTax, 0) });
   breakdown.push({ label: 'Registration & inspection', value: parseNumber(regInspect, 0) });
-  breakdown.push({ label: document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? 'Loan payments (annual)' : 'Depreciation (annual)', value: document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : parseNumber(depreciationAnnual, 0) });
+  if (document.querySelector('input[name="ownership"]:checked')?.value === 'loan') {
+    breakdown.push({ label: 'Loan payments (annual)', value: parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) });
+  }
   breakdown.push({ label: 'MBTA annual', value: Number(document.getElementById('mbtaAnnual').textContent.replace(/[$,]/g, '')) || 0 });
   breakdown.push({ label: 'Regional bus', value: regionalVal });
   breakdown.push({ label: 'Rideshare', value: rideshareVal });
@@ -501,46 +490,22 @@ document.getElementById('startOver')?.addEventListener('click', () => {
   document.getElementById('multiDayTrips').value = 1;
 
   // Car defaults
-  afdcAnnual.value = 0;
-  if (parkingMonthly) parkingMonthly.value = 250;
-  // default to off-street parking
+  if (typeof afdcAnnual !== 'undefined') afdcAnnual.value = 0;
+  if (typeof parkingMonthly !== 'undefined') parkingMonthly.value = 250;
   if (document.querySelector('input[name="parkingChoice"][value="offstreet"]')) document.querySelector('input[name="parkingChoice"][value="offstreet"]').checked = true;
-  if (parkingOffstreetRow) parkingOffstreetRow.hidden = false;
-  if (residentPermitRow) residentPermitRow.hidden = true;
-  if (residentPermitAnnual) residentPermitAnnual.value = 0;
-  insuranceAnnual.value = 1200;
-  exciseTax.value = 0;
-  regInspect.value = 100;
-  document.querySelector('input[name="ownership"][value="loan"]').checked = true;
-  document.getElementById('loanFields').hidden = false;
-  document.getElementById('paidFields').hidden = true;
-  loanMonthly.value = 300;
-  loanMonthsPerYear.value = 12;
-  depreciationAnnual.value = 3000;
+  if (typeof residentPermitAnnual !== 'undefined') residentPermitAnnual.value = 0;
+  if (typeof insuranceAnnual !== 'undefined') insuranceAnnual.value = 1200;
+  if (typeof exciseTax !== 'undefined') exciseTax.value = 0;
+  if (typeof regInspect !== 'undefined') regInspect.value = 100;
+  if (document.querySelector('input[name="ownership"][value="loan"]')) document.querySelector('input[name="ownership"][value="loan"]').checked = true;
+  if (typeof loanMonthly !== 'undefined') loanMonthly.value = 300;
+  if (typeof loanMonthsPerYear !== 'undefined') loanMonthsPerYear.value = 12;
 
   // No-car defaults
-  document.querySelector('input[name="mbtaStrategy"][value="pass"]').checked = true;
-  mbtaTripsPerMonth.value = 40;
-  mbtaPassPrice.value = 90;
-  mbtaFare.value = 2.4;
-  mbtaAutoCheapest.checked = false;
-
-  regionalTown.value = 'boston';
-  regionalTripsPerYear.value = 0;
-  regionalFare.value = regionalFareMap['boston'];
-
-  rideshareTripsPerMonth.value = 2;
-  rideshareAvgCost.value = 15;
-  rideshareMultiplier.value = 1.0;
-
-  document.querySelector('input[name="rentalChoice"][value="days"]').checked = true;
-  document.getElementById('rentalDaysRow').hidden = false;
-  document.getElementById('rentalWeekendsRow').hidden = true;
-  rentalDaysPerYear.value = 0;
-  rentalWeekendsPerYear.value = 0;
-  rentalDaysPerWeekend.value = 2;
-  rentalDailyCost.value = 40;
-  rentalFuelPerDay.value = 0;
+  if (typeof mbtaBusTripsPerMonth !== 'undefined') mbtaBusTripsPerMonth.value = 0;
+  if (typeof regionalBusTripsPerMonth !== 'undefined') regionalBusTripsPerMonth.value = 0;
+  if (typeof rideshareMonthlySpend !== 'undefined') rideshareMonthlySpend.value = 0;
+  if (typeof rentalTripsPerYear !== 'undefined') rentalTripsPerYear.value = 0;
 
   updateCarSummary();
   updateNoCarSummary();
