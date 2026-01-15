@@ -204,6 +204,39 @@ function setUserCategory(category) {
 // ];
 
 // ------- New calculator behavior (navigation, car/no-car logic, computations) -------
+// --- Calculate and display daily mileage for AFDC helper ---
+function calculateAfdcDailyMileage() {
+  const commuteDays = Number(document.getElementById('commuteDays')?.value) || 0;
+  const nonCommuteTrips = Number(document.getElementById('nonCommuteTrips')?.value) || 0;
+  const dayTripsHighway = Number(document.getElementById('dayTripsHighway')?.value) || 0;
+  const multiDayTrips = Number(document.getElementById('multiDayTrips')?.value) || 0;
+
+  // Fixed distances
+  const commuteDist = 8.1;
+  const nonCommuteDist = 7;
+  const dayTripDist = 120;
+  const multiDayDist = 295;
+
+  // Calculate total annual mileage
+  const annualMileage = (commuteDays * 52 * commuteDist) + (nonCommuteTrips * 52 * nonCommuteDist) + (dayTripsHighway * dayTripDist) + (multiDayTrips * multiDayDist);
+  // Typical daily mileage
+  const dailyMileage = annualMileage / 365;
+  return Math.round(dailyMileage * 10) / 10; // round to 1 decimal
+}
+
+function updateAfdcMileageHelper() {
+  const helper = document.getElementById('afdcMileageHelper');
+  if (!helper) return;
+  const xx = calculateAfdcDailyMileage();
+  helper.textContent = `The AFDC calculator will ask for your approximate daily mileage. Based on your travel patterns, your daily travel distance should be around ${xx} mi.`;
+}
+
+['commuteDays','nonCommuteTrips','dayTripsHighway','multiDayTrips'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updateAfdcMileageHelper);
+});
+
+// Initialize on page load
+updateAfdcMileageHelper();
 
 // Screen helpers
 function showScreen(id) {
@@ -378,48 +411,93 @@ function updateCarSummary() {
 }
 
 // No-car interactions
-const mbtaBusTripsPerMonth = document.getElementById('mbtaBusTripsPerMonth');
+const mbtaTripsPerMonth = document.getElementById('mbtaTripsPerMonth');
+const mbtaPassPrice = document.getElementById('mbtaPassPrice');
+const mbtaFare = document.getElementById('mbtaFare');
+const mbtaAutoCheapest = document.getElementById('mbtaAutoCheapest');
 
-const regionalBusTripsPerMonth = document.getElementById('regionalBusTripsPerMonth');
+const regionalTown = document.getElementById('regionalTown');
+const regionalTripsPerYear = document.getElementById('regionalTripsPerYear');
+const regionalFare = document.getElementById('regionalFare');
 
-const rideshareMonthlySpend = document.getElementById('rideshareMonthlySpend');
+const rideshareTripsPerMonth = document.getElementById('rideshareTripsPerMonth');
+const rideshareAvgCost = document.getElementById('rideshareAvgCost');
+const rideshareMultiplier = document.getElementById('rideshareMultiplier');
 
-const rentalTripsPerYear = document.getElementById('rentalTripsPerYear');
+const rentalChoiceRadios = document.querySelectorAll('input[name="rentalChoice"]');
+const rentalDaysPerYear = document.getElementById('rentalDaysPerYear');
+const rentalWeekendsPerYear = document.getElementById('rentalWeekendsPerYear');
+const rentalDaysPerWeekend = document.getElementById('rentalDaysPerWeekend');
+const rentalDailyCost = document.getElementById('rentalDailyCost');
+const rentalFuelPerDay = document.getElementById('rentalFuelPerDay');
 
 // MBTA strategy
-// MBTA strategy removed; only bus trips per month input is used now.
+document.querySelectorAll('input[name="mbtaStrategy"]').forEach((r) => r.addEventListener('change', () => {
+  const strategy = document.querySelector('input[name="mbtaStrategy"]:checked')?.value;
+  document.getElementById('mbtaPassRow').hidden = strategy !== 'pass';
+  document.getElementById('mbtaPayRow').hidden = strategy !== 'pay';
+  updateNoCarSummary();
+}));
 
 // Rental choice
-// Rental choice logic removed; only trips per year input is used now.
+rentalChoiceRadios.forEach((r) => r.addEventListener('change', () => {
+  const val = document.querySelector('input[name="rentalChoice"]:checked')?.value;
+  document.getElementById('rentalDaysRow').hidden = val !== 'days';
+  document.getElementById('rentalWeekendsRow').hidden = val !== 'weekends';
+  updateNoCarSummary();
+}));
 
-// Regional bus town/fare logic removed; only trips per month input is used now.
+// Regional town fare prefill map
+const regionalFareMap = {
+  quincy: 2.25,
+  newton: 2.75,
+  wellesley: 3.25,
+  lynn: 3.00,
+  other: 2.50,
+  boston: 2.40,
+};
+
+regionalTown?.addEventListener('change', () => {
+  const val = regionalTown.value;
+  const pre = regionalFareMap[val] ?? 2.5;
+  regionalFare.value = pre;
+  updateNoCarSummary();
+});
 
 // Live updates
-[mbtaBusTripsPerMonth, regionalBusTripsPerMonth, rideshareMonthlySpend, rentalTripsPerYear].forEach((el) => {
+[mbtaTripsPerMonth, mbtaPassPrice, mbtaFare, mbtaAutoCheapest, regionalTripsPerYear, regionalFare, rideshareTripsPerMonth, rideshareAvgCost, rideshareMultiplier, rentalDaysPerYear, rentalWeekendsPerYear, rentalDaysPerWeekend, rentalDailyCost, rentalFuelPerDay].forEach((el) => {
   el?.addEventListener('input', updateNoCarSummary);
   el?.addEventListener('change', updateNoCarSummary);
 });
 
 function updateNoCarSummary() {
-  // MBTA Bus logic: if trips > 40, $90/month, else trips * $1.70/month
-  const tripsMonth = parseNumber(mbtaBusTripsPerMonth, 0);
+  // MBTA
+  const tripsMonth = parseNumber(mbtaTripsPerMonth, 0);
+  const passPrice = parseNumber(mbtaPassPrice, 0);
+  const fare = parseNumber(mbtaFare, 0);
   let mbtaAnnual = 0;
-  if (tripsMonth > 40) {
-    mbtaAnnual = 90 * 12;
+  const strategy = document.querySelector('input[name="mbtaStrategy"]:checked')?.value;
+  if (strategy === 'pass') {
+    mbtaAnnual = passPrice * 12;
   } else {
-    mbtaAnnual = tripsMonth * 1.70 * 12;
+    mbtaAnnual = tripsMonth * fare * 12;
+  }
+  if (mbtaAutoCheapest?.checked) {
+    const pass12 = passPrice * 12;
+    const pay12 = tripsMonth * fare * 12;
+    mbtaAnnual = Math.min(pass12, pay12);
   }
 
-  // Regional bus logic: regional cost = trips * $7 * 12
-  const regionalTripsMonth = parseNumber(regionalBusTripsPerMonth, 0);
-  const regionalAnnual = regionalTripsMonth * 7 * 12;
+  const regionalAnnual = parseNumber(regionalTripsPerYear, 0) * parseNumber(regionalFare, 0);
+  const rideshareAnnual = parseNumber(rideshareTripsPerMonth, 0) * parseNumber(rideshareAvgCost, 0) * parseNumber(rideshareMultiplier, 1) * 12;
 
-  // Rideshare: use monthly spend directly
-  const rideshareAnnual = parseNumber(rideshareMonthlySpend, 0) * 12;
-
-  // Rental cars: use trips per year × $150
-  const rentalTrips = parseNumber(rentalTripsPerYear, 0);
-  const rentalAnnual = rentalTrips * 150;
+  let rentalAnnual = 0;
+  const rChoice = document.querySelector('input[name="rentalChoice"]:checked')?.value;
+  if (rChoice === 'days') {
+    rentalAnnual = parseNumber(rentalDaysPerYear, 0) * (parseNumber(rentalDailyCost, 0) + parseNumber(rentalFuelPerDay, 0));
+  } else {
+    rentalAnnual = parseNumber(rentalWeekendsPerYear, 0) * parseNumber(rentalDaysPerWeekend, 1) * (parseNumber(rentalDailyCost, 0) + parseNumber(rentalFuelPerDay, 0));
+  }
 
   document.getElementById('mbtaAnnual').textContent = money(mbtaAnnual);
   document.getElementById('regionalAnnual').textContent = money(regionalAnnual);
@@ -490,22 +568,46 @@ document.getElementById('startOver')?.addEventListener('click', () => {
   document.getElementById('multiDayTrips').value = 1;
 
   // Car defaults
-  if (typeof afdcAnnual !== 'undefined') afdcAnnual.value = 0;
-  if (typeof parkingMonthly !== 'undefined') parkingMonthly.value = 250;
+  afdcAnnual.value = 0;
+  if (parkingMonthly) parkingMonthly.value = 250;
+  // default to off-street parking
   if (document.querySelector('input[name="parkingChoice"][value="offstreet"]')) document.querySelector('input[name="parkingChoice"][value="offstreet"]').checked = true;
-  if (typeof residentPermitAnnual !== 'undefined') residentPermitAnnual.value = 0;
-  if (typeof insuranceAnnual !== 'undefined') insuranceAnnual.value = 1200;
-  if (typeof exciseTax !== 'undefined') exciseTax.value = 0;
-  if (typeof regInspect !== 'undefined') regInspect.value = 100;
-  if (document.querySelector('input[name="ownership"][value="loan"]')) document.querySelector('input[name="ownership"][value="loan"]').checked = true;
-  if (typeof loanMonthly !== 'undefined') loanMonthly.value = 300;
-  if (typeof loanMonthsPerYear !== 'undefined') loanMonthsPerYear.value = 12;
+  if (parkingOffstreetRow) parkingOffstreetRow.hidden = false;
+  if (residentPermitRow) residentPermitRow.hidden = true;
+  if (residentPermitAnnual) residentPermitAnnual.value = 0;
+  insuranceAnnual.value = 1200;
+  exciseTax.value = 0;
+  regInspect.value = 100;
+  document.querySelector('input[name="ownership"][value="loan"]').checked = true;
+  document.getElementById('loanFields').hidden = false;
+  document.getElementById('paidFields').hidden = true;
+  loanMonthly.value = 300;
+  loanMonthsPerYear.value = 12;
+  // Removed depreciation default
 
   // No-car defaults
-  if (typeof mbtaBusTripsPerMonth !== 'undefined') mbtaBusTripsPerMonth.value = 0;
-  if (typeof regionalBusTripsPerMonth !== 'undefined') regionalBusTripsPerMonth.value = 0;
-  if (typeof rideshareMonthlySpend !== 'undefined') rideshareMonthlySpend.value = 0;
-  if (typeof rentalTripsPerYear !== 'undefined') rentalTripsPerYear.value = 0;
+  document.querySelector('input[name="mbtaStrategy"][value="pass"]').checked = true;
+  mbtaTripsPerMonth.value = 40;
+  mbtaPassPrice.value = 90;
+  mbtaFare.value = 2.4;
+  mbtaAutoCheapest.checked = false;
+
+  regionalTown.value = 'boston';
+  regionalTripsPerYear.value = 0;
+  regionalFare.value = regionalFareMap['boston'];
+
+  rideshareTripsPerMonth.value = 2;
+  rideshareAvgCost.value = 15;
+  rideshareMultiplier.value = 1.0;
+
+  document.querySelector('input[name="rentalChoice"][value="days"]').checked = true;
+  document.getElementById('rentalDaysRow').hidden = false;
+  document.getElementById('rentalWeekendsRow').hidden = true;
+  rentalDaysPerYear.value = 0;
+  rentalWeekendsPerYear.value = 0;
+  rentalDaysPerWeekend.value = 2;
+  rentalDailyCost.value = 40;
+  rentalFuelPerDay.value = 0;
 
   updateCarSummary();
   updateNoCarSummary();
