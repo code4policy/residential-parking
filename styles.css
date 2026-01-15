@@ -170,7 +170,6 @@ fieldset.calc-row .calc-row {
 .parking-option.selected .option-body{ border-color:#0b4b66; box-shadow:0 6px 20px rgba(11,75,102,0.06); }
 .parking-option input[type="radio"]{ margin-right:.5rem; transform:translateY(-1px); }
 
-}
 
 @media (max-width:600px){
   fieldset.calc-row{ flex-direction:column; align-items:stretch; }
@@ -184,7 +183,7 @@ fieldset.calc-row .calc-row {
 .calc-row .calc-name{ font-weight:700; color:#091f2f; }
 .calc-row .calc-sub{ font-size:.9rem; color:#666; }
 
-..calc-row .txt{ flex:0 0 120px; width:120px; }
+.calc-row .txt{ flex:0 0 120px; width:120px; }
 
 @media (max-width:600px){
   .calc-row{ flex-direction:column; align-items:stretch; padding:.6rem; }
