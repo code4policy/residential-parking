@@ -160,13 +160,14 @@ fieldset.calc-row .calc-row {
 /* Parking option card styling */
 .parking-option { margin-bottom: .75rem; width:100%; }
 .parking-option label{ display:block; cursor:pointer; width:100%; }
-.parking-option .option-body{ display:flex; gap:1rem; align-items:center; justify-content:space-between; padding: .9rem 1rem; border:1px solid #e9e9e9; border-radius:8px; background:#fff; width:100%; box-sizing:border-box; }
+.parking-option .option-body{ display:flex; gap:.5rem; align-items:center; justify-content:space-between; padding:.45rem .7rem; border:1px solid #e9e9e9; border-radius:8px; background:#fff; width:100%; box-sizing:border-box; line-height:1.25; }
 .parking-option .option-title{ font-weight:700; color:#091f2f; }
-.parking-option .option-sub{ font-size:.95rem; color:#666; margin-top:.25rem; }
-.parking-option .option-control{ display:flex; align-items:center; min-width:160px; }
-.parking-option .option-control .calc-row{ display:flex; align-items:center; width:100%; }
-.parking-option .option-control .calc-labels{ margin-right: .5rem; }
-.parking-option .option-control .txt{ margin-left:auto; width:140px; text-align:right; }
+.parking-option .option-title{ font-size:1.05rem; margin:0; }
+.parking-option .option-sub{ font-size:.85rem; color:#666; margin:.1rem 0 0; }
+.parking-option .option-control{ display:flex; align-items:center; min-width:0; }
+.parking-option .option-control .calc-row{ display:flex; align-items:center; width:100%; gap:.5rem; padding:0; margin:0; border:0; background:transparent; }
+.parking-option .option-control .calc-labels{ margin-right:.5rem; font-size:.9rem; white-space:nowrap; }
+.parking-option .option-control .txt{ margin-left:auto; width:120px; text-align:right; padding:.35rem .5rem; }
 .parking-option.selected .option-body{ border-color:#0b4b66; box-shadow:0 6px 20px rgba(11,75,102,0.06); }
 .parking-option input[type="radio"]{ margin-right:.5rem; transform:translateY(-1px); }
 
