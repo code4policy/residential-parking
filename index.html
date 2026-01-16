@@ -25,13 +25,15 @@
 				<div class="container">
 					<section class="main-content" id="content" role="main">
                         <div class="b b--fw" style="background:#fb4d42;">
-                        <div class="b-c b-c--xsmv" style="padding: .75rem 0;">
-                            <strong style="background:#091f2f;color:#fff;padding:.25rem .5rem;border-radius:.25rem;margin-right:.5rem;">
+                        <div class="b-c b-c--xsmv" style="padding: 2rem 0;">
+                            <strong style="background:#091f2f;color:#fff;padding:.5rem .5rem;border-radius:.5rem;margin-right:.5rem;">
                             BETA
                             </strong>
                             <span style="color:#091f2f;">
-                            Student demo project — not an official City of Boston website.
+                            <strong>
+                                Student demo project — not an official City of Boston website.
                             <a href="our_team.html" style="color:#091f2f;text-decoration:underline;">Learn more</a>
+                            </strong>
                             </span>
                         </div>
                         </div>
@@ -48,7 +50,7 @@
 										</h1>
 										<div class="hros-i hros-i--l hros-st--w">
 											Last updated:
-											<time datetime="2025-12-30T17:10:34Z">1/15/26</time>
+											<time datetime="2025-12-30T17:10:34Z">1/16/26</time>
 										</div>
 									</div>
 								</div>
@@ -66,28 +68,15 @@
 									</div>
 								</div>
 							</div>
-							<div class="p-b700 no-sidebar">
-								<div class="sub-nav-trigger ssm-trigger drawer-trigger" role="button" aria-controls="topic-nav" aria-expanded="false" tabindex="0" aria-hidden="true">
-									<div class="ssm-chevron">
-										<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 18" style="enable-background:new 0 0 26 18;" xml:space="preserve">
-											<title>Toggle</title>
-											<path class="st0 icon-stroke" d="M13,17.7L0.5,2.7C0,2.1,0.1,1.2,0.7,0.6c0.6-0.5,1.6-0.4,2.1,0.2L13,13L23.2,0.8c0.5-0.6,1.5-0.7,2.1-0.2
-              c0.6,0.5,0.7,1.5,0.2,2.1L13,17.7z"></path>
-										</svg>
-									</div>
-									Page Sections
-								</div>
-							</div>
+
 							<div class="paragraphs-items paragraphs-items-field-components paragraphs-items-full paragraphs-items-field-components-full">
 								<div class="entity entity-paragraphs-item paragraphs-item-text component-section entity entity-paragraphs-item component-section component-section b--fw" bos_context_type="Text" about="" typeof="">
 									<div class="b-c">
 										<div class="paragraphs-items paragraphs-items-field-text-blocks paragraphs-items-field-text-blocks-full paragraphs-items-full">
 											<div class="entity entity-paragraphs-item paragraphs-item-text-one-column component-section squiggle-border-bottom, p-t400 entity entity-paragraphs-item component-section" bos_context_type="Text One Column" about="" typeof="">
 												<div>
-													<div style="margin-top: 00 px; margin-bottom: -75px;">
-														<p class="intro-lead">Living in Boston, a car can be a convenience—or a major expense. This page helps you compare the true cost of life with a car versus without one, based on how you actually get around.
-
-You can explore example lifestyles—such as students, families, or frequent commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
+													<div style="margin-top: 0px; margin-bottom: 0px;">
+														<p class="intro-lead">Living in Boston, having a car can be either a helpful convenience or a significant expense. This page helps you understand the real cost of living with a car versus without one, based on how you actually travel day to day. You can explore example lifestyles such as students, families, and frequent commuters to see how transportation costs differ. You can also use the interactive calculator to estimate your own costs using your address and travel habits. The goal is to help you make a decision that fits your lifestyle, budget, and daily needs.</p>
 													</div>
 												</div>
 											</div>
@@ -103,8 +92,6 @@ You can explore example lifestyles—such as students, families, or frequent com
                                         <h2 class="sh-title">Transportation Cost Calculator</h2>
                                         </div>
 
-                                
-
                                         <div class="calc-shell">
                                             <!-- Multi-screen calculator -->
                                             <div id="calcStepper">
@@ -112,7 +99,14 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                 <!-- Screen 1 — Basics -->
                                                 <div class="calc-screen active" data-screen="1" id="screen-basics">
                                                     <h3 class="h3">First, let's establish your travel habits and needs!</h3>
-                                                    <p class="t--subinfo m-b300">Please use the stepper below to input your details.</p>
+                                                    <p class="t--subinfo m-b300">Please use the stepper below to input your details. Choosing a lifestyle will fill in typical numbers automatically, which you can adjust.</p>
+
+                                                    <div class="lifestyle-buttons" style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
+                                                        <button class="btn lifestyle-btn" data-lifestyle="student" type="button" style="flex: 1 1 calc(50% - 0.375rem);">👨‍🎓 Student/Professional</button>
+                                                        <button class="btn lifestyle-btn" data-lifestyle="couple" type="button" style="flex: 1 1 calc(50% - 0.375rem);">👫 Couple (no kids)</button>
+                                                        <button class="btn lifestyle-btn" data-lifestyle="family" type="button" style="flex: 1 1 calc(50% - 0.375rem);">👨‍👩‍👧‍👦 Family with kids</button>
+                                                        <button class="btn lifestyle-btn" data-lifestyle="frequent" type="button" style="flex: 1 1 calc(50% - 0.375rem);">🚴 Frequent Trip-Goers</button>
+                                                    </div>
 
                                                     <label class="calc-row">
                                                         <span class="calc-labels">
@@ -125,8 +119,8 @@ You can explore example lifestyles—such as students, families, or frequent com
 
                                                     <label class="calc-row">
                                                         <span class="calc-labels">
-                                                            <span class="calc-name">Daily commute trips</span>
-                                                            <span class="calc-sub">One-way trips for your daily commute (work, school, etc.)</span>
+                                                            <span class="calc-name">Commuting per week</span>
+                                                            <span class="calc-sub">Work, school, etc.</span>
                                                         </span>
                                                         <input id="commuteDays" class="txt" type="number" min="0" step="1" value="5">
                                                     </label>
@@ -173,13 +167,13 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                                         <div class="option-title">Do you currently own a car?</div>
                                                                     </div>
                                                                     <div class="option-control">
-                                                                        <label style="margin-bottom: 0.25rem;">
+                                                                        <label>
                                                                             <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
-                                                                            Yes — I already own a car
+                                                                            Yes
                                                                         </label>
                                                                         <label>
                                                                             <input type="radio" name="carOwnership" id="ownCarNo" value="no">
-                                                                            No — I’m considering buying one
+                                                                            No
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -187,7 +181,7 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                             <div class="parking-option" id="fuelCostSection" style="display:none;">
                                                                 <div class="option-body">
                                                                     <div>
-                                                                        <div class="option-title">Average fuel/charging cost per month (USD)</div>
+                                                                        <div class="option-title">Average fuel/electricity cost per month (USD)</div>
                                                                         <div class="option-sub">Enter your typical monthly average.</div>
                                                                     </div>
                                                                     <div class="option-control">
@@ -198,9 +192,12 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                             <div class="parking-option" id="afdcSection" style="display:none;">
                                                                 <div class="option-body">
                                                                     <div>
-                                                                        <div class="option-title">Estimated annual fuel/energy cost (USD)</div>
+                                                                        <div class="option-title">Estimated annual fuel/electricity cost (USD)</div>
                                                                         <div class="option-sub">Use the <a href='https://www.afdc.energy.gov/calc' target='_blank' id='afdcLink'>AFDC calculator</a> to estimate annual fuel or charging costs for a car you might buy.</div>
-                                                                                                                                            <div class="option-sub" id="afdcMileageHelper" style="margin-top:0.25em;"></div>
+                                                                        <div class="option-sub" id="afdcMileageHelper" style="margin-top:0.25em;"></div>
+                                                                        <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                                                          <iframe src="https://afdc.energy.gov/widget/calc/" style="height: 349px; width: 250px; border: none;" scrolling="no" frameborder="0"></iframe>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="option-control">
                                                                         <input id="afdcAnnual" class="txt" type="number" min="0" step="100">
@@ -411,6 +408,7 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                     </div>
 
                                                     <div class="m-t300">
+                                                        <button class="btn" id="backFromResults">Back</button>
                                                         <button class="btn" id="startOver">Start over</button>
                                                     </div>
                                                 </div>
@@ -424,18 +422,27 @@ You can explore example lifestyles—such as students, families, or frequent com
                                         </div>
                                     </div>
 
-                                    </section>                                    
-                                    
-                                    <!-- <section class="b b--fw">
+                                    </section> 
+
+                                    <div class="subnav-anchor" aria-hidden="true" title="This is an anchor"></div>
+                                    <div class="entity entity-paragraphs-item paragraphs-item-text component-section entity entity-paragraphs-item component-section component-section b--fw" bos_context_type="Text" about="" typeof="">
+                                        <section class="b b--fw" id="calculator">
                                     <div class="b-c">
                                         <div class="sh">
-                                        <h2 class="sh-title">Typical Transportation Costs for Different Lifestyles</h2>
+                                        <h2 class="sh-title">Need help deciding? Ask our AI Agent!</h2>
                                         </div>
-
-                                        <div id="lifestyles" class="cob-accordion"></div>
+                                        <div class="calc-shell">
+                                            <!-- Multi-screen calculator -->
+                                            <div id="calcStepper">
+                                                    <h3 class="h3 m-t400 m-b400"></h3>
+                                                    <iframe src="https://boston-agent--artahseenjahan.replit.app" style="width: 100%; height: 800px; border: none;"></iframe>
+                                                    <strong class="m-t300"><em>DISCLAIMER: AI-generated content may not always reflect the most current information or policies. Please verify any critical information independently.</em></strong>
+                                            </div>
+                                        </div>
                                     </div>
-                                    </section> -->
 
+                                    </div>
+                                    
                                     <div class="paragraphs-items paragraphs-items-full">
                                         <div class="component-section">
                                         <div class="field field-label-hidden field-type-text-long field__items field-items">
