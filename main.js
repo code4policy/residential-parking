@@ -149,6 +149,7 @@ toResultsBtn?.addEventListener('click', () => {
 // Back buttons
 document.getElementById('backFromCar')?.addEventListener('click', () => showScreen('screen-basics'));
 document.getElementById('backFromNoCar')?.addEventListener('click', () => showScreen('screen-car'));
+document.getElementById('backFromResults')?.addEventListener('click', () => showScreen('screen-nocar'));
 
 // Car screen interactions
 const afdcAnnual = document.getElementById('afdcAnnual');
