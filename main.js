@@ -98,16 +98,14 @@ function calculateAfdcDailyMileage() {
 
   // Calculate total annual mileage
   const annualMileage = (commuteDays * 52 * commuteDist) + (nonCommuteTrips * 52 * nonCommuteDist) + (dayTripsHighway * dayTripDist) + (multiDayTrips * multiDayDist);
-  // Typical daily mileage
-  const dailyMileage = annualMileage / 365;
-  return Math.round(dailyMileage * 10) / 10; // round to 1 decimal
+  return Math.round(annualMileage * 10) / 10; // round to 1 decimal
 }
 
 function updateAfdcMileageHelper() {
   const helper = document.getElementById('afdcMileageHelper');
   if (!helper) return;
   const xx = calculateAfdcDailyMileage();
-  helper.textContent = `The AFDC calculator will ask for your approximate daily mileage.\nBased on your travel patterns, your daily travel distance should be around ${xx} mi.`;
+  helper.innerHTML = `It will ask for your annual mileage, which should be around <strong>${xx} miles</strong> based on your travel patterns. This includes your normal daily use, so input 0 miles for daily driving distance.`;
 }
 
 ['commuteDays','nonCommuteTrips','dayTripsHighway','multiDayTrips'].forEach(id => {
@@ -335,13 +333,13 @@ function setNoCarDefaultsFromBasics() {
   const multiDayTrips = Number(document.getElementById('multiDayTrips')?.value) || 0;
 
   const weeks = 4; // approximate weeks per month
-  const mbtaTripsMonth = (commuteDays * 2 * weeks) + (nonCommuteTrips * weeks);
+  const mbtaTripsMonth = (commuteDays * 2 * weeks) + (nonCommuteTrips * 2 * weeks * 0.75);
   const payPerRideMonthly = mbtaTripsMonth * 2.4; // typical fare for subway/bus
   const passMonthly = 90; // typical LinkPass price
   const mbtaMonthlyDefault = Math.min(passMonthly, payPerRideMonthly);
 
   const rideshareMonthlyDefault = Math.max(0, Math.round(nonCommuteTrips * weeks * 0.25) * 15); // ~25% of non-commute trips via rideshare @ $15
-  const REGIONAL_BUS_AVG_PER_DAY = 12; // average day-trip spend on regional bus
+  const REGIONAL_BUS_AVG_PER_DAY = 20; // average day-trip spend on regional bus
   const regionalMonthlyDefault = (dayTripsHighway * REGIONAL_BUS_AVG_PER_DAY) / 12; // convert annual day trips to monthly cost
   const rentalAnnualDefault = Math.max(0, Math.round(40 * (dayTripsHighway + (multiDayTrips * 2)))); // $40/day, assume 2 days for multi-day trips
 

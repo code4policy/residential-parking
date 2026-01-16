@@ -110,14 +110,7 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                 <!-- Screen 1 — Basics -->
                                                 <div class="calc-screen active" data-screen="1" id="screen-basics">
                                                     <h3 class="h3">First, let's establish your travel habits and needs!</h3>
-                                                    <p class="t--subinfo m-b300">Please use the stepper below to input your details.</p>
-
-                                                    <div class="lifestyle-buttons" style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; flex-wrap: wrap;">
-                                                        <button class="btn lifestyle-btn" data-lifestyle="student" type="button" style="flex: 1 1 calc(50% - 0.375rem);">👨‍🎓 Student/Professional</button>
-                                                        <button class="btn lifestyle-btn" data-lifestyle="couple" type="button" style="flex: 1 1 calc(50% - 0.375rem);">👫 Couple (no kids)</button>
-                                                        <button class="btn lifestyle-btn" data-lifestyle="family" type="button" style="flex: 1 1 calc(50% - 0.375rem);">👨‍👩‍👧‍👦 Family with kids</button>
-                                                        <button class="btn lifestyle-btn" data-lifestyle="frequent" type="button" style="flex: 1 1 calc(50% - 0.375rem);">🚴 Frequent Trip-Goers</button>
-                                                    </div>
+                                                    <p class="t--subinfo m-b300">Please use the stepper below to input your details. Choosing a lifestyle will fill in typical numbers automatically, which you can adjust.</p>
 
                                                     <label class="calc-row">
                                                         <span class="calc-labels">
@@ -130,8 +123,8 @@ You can explore example lifestyles—such as students, families, or frequent com
 
                                                     <label class="calc-row">
                                                         <span class="calc-labels">
-                                                            <span class="calc-name">Daily commute trips</span>
-                                                            <span class="calc-sub">One-way trips for your daily commute (work, school, etc.)</span>
+                                                            <span class="calc-name">Commuting per week</span>
+                                                            <span class="calc-sub">Work, school, etc.</span>
                                                         </span>
                                                         <input id="commuteDays" class="txt" type="number" min="0" step="1" value="5">
                                                     </label>
@@ -178,13 +171,13 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                                         <div class="option-title">Do you currently own a car?</div>
                                                                     </div>
                                                                     <div class="option-control">
-                                                                        <label style="margin-bottom: 0.25rem;">
+                                                                        <label>
                                                                             <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
-                                                                            Yes — I already own a car
+                                                                            Yes
                                                                         </label>
                                                                         <label>
                                                                             <input type="radio" name="carOwnership" id="ownCarNo" value="no">
-                                                                            No — I’m considering buying one
+                                                                            No
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -203,9 +196,12 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                             <div class="parking-option" id="afdcSection" style="display:none;">
                                                                 <div class="option-body">
                                                                     <div>
-                                                                        <div class="option-title">Estimated annual fuel/energy cost (USD)</div>
+                                                                        <div class="option-title">Estimated annual fuel/electricity cost (USD)</div>
                                                                         <div class="option-sub">Use the <a href='https://www.afdc.energy.gov/calc' target='_blank' id='afdcLink'>AFDC calculator</a> to estimate annual fuel or charging costs for a car you might buy.</div>
-                                                                                                                                            <div class="option-sub" id="afdcMileageHelper" style="margin-top:0.25em;"></div>
+                                                                        <div class="option-sub" id="afdcMileageHelper" style="margin-top:0.25em;"></div>
+                                                                        <div style="display: flex; justify-content: center; margin: 20px 0;">
+                                                                          <iframe src="https://afdc.energy.gov/widget/calc/" style="height: 349px; width: 250px; border: none;" scrolling="no" frameborder="0"></iframe>
+                                                                        </div>
                                                                     </div>
                                                                     <div class="option-control">
                                                                         <input id="afdcAnnual" class="txt" type="number" min="0" step="100">

@@ -164,10 +164,10 @@ fieldset.calc-row .calc-row {
 .parking-option .option-title{ font-weight:700; color:#091f2f; }
 .parking-option .option-title{ font-size:1.05rem; margin:0; }
 .parking-option .option-sub{ font-size:.85rem; color:#666; margin:.1rem 0 0; }
-.parking-option .option-control{ display:flex; align-items:center; min-width:0; }
-.parking-option .option-control .calc-row{ display:flex; align-items:center; width:100%; gap:.5rem; padding:0; margin:0; border:0; background:transparent; }
-.parking-option .option-control .calc-labels{ margin-right:.5rem; font-size:.9rem; white-space:nowrap; }
-.parking-option .option-control .txt{ margin-left:auto; width:120px; text-align:right; padding:.35rem .5rem; }
+.parking-option .option-control{ align-items:center; min-width:0; }
+.parking-option .option-control .calc-row{ display:flex; height: auto; align-items:center; width:100%; gap:.5rem; padding:0; margin:0; border:0; background:transparent; }
+.parking-option .option-control .calc-labels{ margin-right:.5rem; height: auto; font-size:.9rem; white-space:nowrap; }
+.parking-option .option-control .txt{ margin-left:auto; height: auto; width:120px; text-align:right; padding:.35rem .5rem; }
 .parking-option.selected .option-body{ border-color:#0b4b66; box-shadow:0 6px 20px rgba(11,75,102,0.06); }
 .parking-option input[type="radio"]{ margin-right:.5rem; transform:translateY(-1px); }
 
@@ -184,7 +184,7 @@ fieldset.calc-row .calc-row {
 .calc-row .calc-name{ font-weight:700; color:#091f2f; }
 .calc-row .calc-sub{ font-size:.9rem; color:#666; }
 
-.calc-row .txt{ flex:0 0 120px; width:120px; }
+/* .calc-row .txt{ flex:0 0 120px; width:120px; } */
 
 @media (max-width:600px){
   .calc-row{ flex-direction:column; align-items:stretch; padding:.6rem; }
