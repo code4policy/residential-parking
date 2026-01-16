@@ -228,7 +228,7 @@ function updateAfdcMileageHelper() {
   const helper = document.getElementById('afdcMileageHelper');
   if (!helper) return;
   const xx = calculateAfdcDailyMileage();
-  helper.textContent = `The AFDC calculator will ask for your approximate daily mileage. Based on your travel patterns, your daily travel distance should be around ${xx} mi.`;
+  helper.textContent = `The AFDC calculator will ask for your approximate daily mileage.\nBased on your travel patterns, your daily travel distance should be around ${xx} mi.`;
 }
 
 ['commuteDays','nonCommuteTrips','dayTripsHighway','multiDayTrips'].forEach(id => {
