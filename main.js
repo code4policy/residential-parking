@@ -259,6 +259,8 @@ toStep2Btn?.addEventListener('click', () => {
 
 const toNoCarBtn = document.getElementById('toComparisonFromCar');
 toNoCarBtn?.addEventListener('click', () => {
+  // Derive defaults from Screen 1 inputs when entering Screen 3
+  setNoCarDefaultsFromBasics();
   showScreen('screen-nocar'); // screen 3
 });
 
@@ -415,11 +417,12 @@ const mbtaTripsPerMonth = document.getElementById('mbtaTripsPerMonth');
 const mbtaPassPrice = document.getElementById('mbtaPassPrice');
 const mbtaFare = document.getElementById('mbtaFare');
 const mbtaAutoCheapest = document.getElementById('mbtaAutoCheapest');
-// New direct monthly inputs
+// New direct monthly inputs (Screen 3)
 const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
 const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
 const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
-const rentalCarMonthlyDirect = document.getElementById('rentalCarMonthlyDirect');
+// Rental is provided as ANNUAL direct input on Screen 3
+const rentalCarAnnualDirect = document.getElementById('rentalCarAnnualDirect');
 
 const regionalTown = document.getElementById('regionalTown');
 const regionalTripsPerYear = document.getElementById('regionalTripsPerYear');
@@ -470,23 +473,18 @@ regionalTown?.addEventListener('change', () => {
 });
 
 // Live updates
-// Listen for changes on new direct monthly inputs (and legacy ones if present)
-[mbtaMonthlyDirect, regionalBusMonthlyDirect, rideshareMonthlyDirect, rentalCarMonthlyDirect, mbtaTripsPerMonth, mbtaPassPrice, mbtaFare, mbtaAutoCheapest, regionalTripsPerYear, regionalFare, rideshareTripsPerMonth, rideshareAvgCost, rideshareMultiplier, rentalDaysPerYear, rentalWeekendsPerYear, rentalDaysPerWeekend, rentalDailyCost, rentalFuelPerDay].forEach((el) => {
+// Listen for changes on new direct monthly/annual inputs (and legacy ones if present)
+[mbtaMonthlyDirect, regionalBusMonthlyDirect, rideshareMonthlyDirect, rentalCarAnnualDirect, mbtaTripsPerMonth, mbtaPassPrice, mbtaFare, mbtaAutoCheapest, regionalTripsPerYear, regionalFare, rideshareTripsPerMonth, rideshareAvgCost, rideshareMultiplier, rentalDaysPerYear, rentalWeekendsPerYear, rentalDaysPerWeekend, rentalDailyCost, rentalFuelPerDay].forEach((el) => {
   el?.addEventListener('input', updateNoCarSummary);
   el?.addEventListener('change', updateNoCarSummary);
 });
 
 function updateNoCarSummary() {
-  // Use direct monthly cost inputs for all no-car options
-  const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
-  const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
-  const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
-  const rentalCarMonthlyDirect = document.getElementById('rentalCarMonthlyDirect');
-
+  // Use direct monthly cost inputs (annualized) and direct annual rental input
   const mbtaAnnual = parseNumber(mbtaMonthlyDirect, 0) * 12;
   const regionalAnnual = parseNumber(regionalBusMonthlyDirect, 0) * 12;
   const rideshareAnnual = parseNumber(rideshareMonthlyDirect, 0) * 12;
-  const rentalAnnual = parseNumber(rentalCarMonthlyDirect, 0) * 12;
+  const rentalAnnual = parseNumber(rentalCarAnnualDirect, 0);
 
   document.getElementById('mbtaAnnual').textContent = money(mbtaAnnual);
   document.getElementById('regionalAnnual').textContent = money(regionalAnnual);
@@ -495,6 +493,32 @@ function updateNoCarSummary() {
 
   const total = mbtaAnnual + regionalAnnual + rideshareAnnual + rentalAnnual;
   document.getElementById('noCarAnnual').textContent = money(total);
+}
+
+// Derive sensible defaults for Screen 3 from Screen 1 inputs
+function setNoCarDefaultsFromBasics() {
+  const commuteDays = Number(document.getElementById('commuteDays')?.value) || 0;
+  const nonCommuteTrips = Number(document.getElementById('nonCommuteTrips')?.value) || 0;
+  const dayTripsHighway = Number(document.getElementById('dayTripsHighway')?.value) || 0;
+  const multiDayTrips = Number(document.getElementById('multiDayTrips')?.value) || 0;
+
+  const weeks = 4; // approximate weeks per month
+  const mbtaTripsMonth = (commuteDays * 2 * weeks) + (nonCommuteTrips * weeks);
+  const payPerRideMonthly = mbtaTripsMonth * 2.4; // typical fare for subway/bus
+  const passMonthly = 90; // typical LinkPass price
+  const mbtaMonthlyDefault = Math.min(passMonthly, payPerRideMonthly);
+
+  const rideshareMonthlyDefault = Math.max(0, Math.round(nonCommuteTrips * weeks * 0.25) * 15); // ~25% of non-commute trips via rideshare @ $15
+  const REGIONAL_BUS_AVG_PER_DAY = 12; // average day-trip spend on regional bus
+  const regionalMonthlyDefault = (dayTripsHighway * REGIONAL_BUS_AVG_PER_DAY) / 12; // convert annual day trips to monthly cost
+  const rentalAnnualDefault = Math.max(0, Math.round(40 * (dayTripsHighway + (multiDayTrips * 2)))); // $40/day, assume 2 days for multi-day trips
+
+  if (mbtaMonthlyDirect) mbtaMonthlyDirect.value = Math.round(mbtaMonthlyDefault);
+  if (regionalBusMonthlyDirect) regionalBusMonthlyDirect.value = Math.round(regionalMonthlyDefault);
+  if (rideshareMonthlyDirect) rideshareMonthlyDirect.value = Math.round(rideshareMonthlyDefault);
+  if (rentalCarAnnualDirect) rentalCarAnnualDirect.value = rentalAnnualDefault;
+
+  updateNoCarSummary();
 }
 
 // Comparison navigation
@@ -579,14 +603,15 @@ document.getElementById('startOver')?.addEventListener('click', () => {
   const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
   const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
   const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
-  const rentalCarMonthlyDirect = document.getElementById('rentalCarMonthlyDirect');
+  const rentalCarAnnualDirect = document.getElementById('rentalCarAnnualDirect');
   if (mbtaMonthlyDirect) mbtaMonthlyDirect.value = 0;
   if (regionalBusMonthlyDirect) regionalBusMonthlyDirect.value = 0;
   if (rideshareMonthlyDirect) rideshareMonthlyDirect.value = 0;
-  if (rentalCarMonthlyDirect) rentalCarMonthlyDirect.value = 0;
+  if (rentalCarAnnualDirect) rentalCarAnnualDirect.value = 0;
 
   updateCarSummary();
-  updateNoCarSummary();
+  // Optionally derive fresh defaults for Screen 3 based on reset basics
+  setNoCarDefaultsFromBasics();
   showScreen('screen-basics');
 });
 
