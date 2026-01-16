@@ -324,34 +324,12 @@ You can explore example lifestyles—such as students, families, or frequent com
 
                                                     <div class="calc-section">
                                                         <h4>MBTA</h4>
-                                                        <fieldset>
-                                                            <label><input type="radio" name="mbtaStrategy" value="pass" checked> Monthly pass</label>
-                                                            <label><input type="radio" name="mbtaStrategy" value="pay"> Pay per ride</label>
-                                                        </fieldset>
-
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">MBTA trips per month</span>
+                                                                <span class="calc-name">Your monthly MBTA cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on MBTA (subway, bus, commuter rail, ferry, etc.)</span>
                                                             </span>
-                                                            <input id="mbtaTripsPerMonth" class="txt" type="number" min="0" step="1" value="40">
-                                                        </label>
-
-                                                        <label class="calc-row" id="mbtaPassRow">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Monthly pass price</span>
-                                                            </span>
-                                                            <input id="mbtaPassPrice" class="txt" type="number" min="0" step="0.01" value="90">
-                                                        </label>
-
-                                                        <label class="calc-row" id="mbtaPayRow" hidden>
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Avg fare per MBTA trip</span>
-                                                            </span>
-                                                            <input id="mbtaFare" class="txt" type="number" min="0" step="0.01" value="2.40">
-                                                        </label>
-
-                                                        <label class="calc-row">
-                                                            <label><input type="checkbox" id="mbtaAutoCheapest"> Auto-choose cheapest of pass vs pay-per-ride</label>
+                                                            <input id="mbtaMonthlyDirect" class="txt" type="number" min="0" step="1" value="0">
                                                         </label>
                                                     </div>
 
@@ -359,30 +337,10 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                         <h4>Regional bus (outside Boston)</h4>
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">Town</span>
+                                                                <span class="calc-name">Your monthly Regional bus cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on regional buses (e.g., MBTA express, MWRTA, LRTA, etc.)</span>
                                                             </span>
-                                                            <select id="regionalTown" class="txt">
-                                                                <option value="boston" selected>Boston</option>
-                                                                <option value="quincy">Quincy</option>
-                                                                <option value="newton">Newton</option>
-                                                                <option value="wellesley">Wellesley</option>
-                                                                <option value="lynn">Lynn</option>
-                                                                <option value="other">Other</option>
-                                                            </select>
-                                                        </label>
-
-                                                        <label class="calc-row">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Regional bus trips per year</span>
-                                                            </span>
-                                                            <input id="regionalTripsPerYear" class="txt" type="number" min="0" step="1" value="0">
-                                                        </label>
-
-                                                        <label class="calc-row">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Avg fare per trip</span>
-                                                            </span>
-                                                            <input id="regionalFare" class="txt" type="number" min="0" step="0.01" value="2.50">
+                                                            <input id="regionalBusMonthlyDirect" class="txt" type="number" min="0" step="1" value="0">
                                                         </label>
                                                     </div>
 
@@ -390,70 +348,21 @@ You can explore example lifestyles—such as students, families, or frequent com
                                                         <h4>Rideshare</h4>
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">Rideshare trips per month</span>
+                                                                <span class="calc-name">Your monthly Rideshare cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on rideshare (Uber, Lyft, etc.)</span>
                                                             </span>
-                                                            <input id="rideshareTripsPerMonth" class="txt" type="number" min="0" step="1" value="2">
-                                                        </label>
-
-                                                        <label class="calc-row">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Avg cost per trip</span>
-                                                            </span>
-                                                            <input id="rideshareAvgCost" class="txt" type="number" min="0" step="0.01" value="15">
-                                                        </label>
-
-                                                        <label class="calc-row">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Surge / peak multiplier</span>
-                                                            </span>
-                                                            <input id="rideshareMultiplier" class="txt" type="number" min="0.5" step="0.1" value="1.0">
+                                                            <input id="rideshareMonthlyDirect" class="txt" type="number" min="0" step="1" value="0">
                                                         </label>
                                                     </div>
 
                                                     <div class="calc-section">
                                                         <h4>Rental cars</h4>
-                                                        <fieldset>
-                                                            <legend class="calc-name">Usage frequency</legend>
-                                                            <label><input type="radio" name="rentalChoice" value="days" checked> Days per year</label>
-                                                            <label><input type="radio" name="rentalChoice" value="weekends"> Weekends per year</label>
-                                                        </fieldset>
-
-                                                        <div id="rentalDaysRow">
-                                                            <label class="calc-row">
-                                                                <span class="calc-labels">
-                                                                    <span class="calc-name">Days per year</span>
-                                                                </span>
-                                                                <input id="rentalDaysPerYear" class="txt" type="number" min="0" step="1" value="0">
-                                                            </label>
-                                                        </div>
-
-                                                        <div id="rentalWeekendsRow" hidden>
-                                                            <label class="calc-row">
-                                                                <span class="calc-labels">
-                                                                    <span class="calc-name">Weekends per year</span>
-                                                                </span>
-                                                                <input id="rentalWeekendsPerYear" class="txt" type="number" min="0" step="1" value="0">
-                                                            </label>
-                                                            <label class="calc-row">
-                                                                <span class="calc-labels">
-                                                                    <span class="calc-name">Avg rental days per weekend</span>
-                                                                </span>
-                                                                <input id="rentalDaysPerWeekend" class="txt" type="number" min="1" step="1" value="2">
-                                                            </label>
-                                                        </div>
-
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">All-in daily cost (rate + taxes/fees + insurance)</span>
+                                                                <span class="calc-name">Your monthly rental car cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on rental cars (Zipcar, Hertz, Enterprise, etc.)</span>
                                                             </span>
-                                                            <input id="rentalDailyCost" class="txt" type="number" min="0" step="0.01" value="40">
-                                                        </label>
-
-                                                        <label class="calc-row">
-                                                            <span class="calc-labels">
-                                                                <span class="calc-name">Fuel / charging per rental day</span>
-                                                            </span>
-                                                            <input id="rentalFuelPerDay" class="txt" type="number" min="0" step="0.01" value="0">
+                                                            <input id="rentalCarMonthlyDirect" class="txt" type="number" min="0" step="0.01" value="0">
                                                         </label>
                                                     </div>
 
