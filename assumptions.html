@@ -117,14 +117,16 @@
               <section class="main-content" id="content" role="main">
 
                 <div class="b b--fw" style="background:#fb4d42;">
-                  <div class="b-c b-c--xsmv" style="padding: .75rem 0;">
-                    <strong style="background:#091f2f;color:#fff;padding:.25rem .5rem;border-radius:.25rem;margin-right:.5rem;">
-                    BETA
-                    </strong>
-                    <span style="color:#091f2f;">
-                    Student demo project — not an official City of Boston website.
-                    <a href="our_team.html" style="color:#091f2f;text-decoration:underline;">Learn more</a>
-                    </span>
+                  <div class="b-c b-c--xsmv" style="padding: 2rem 0;">
+                      <strong style="background:#091f2f;color:#fff;padding:.5rem .5rem;border-radius:.5rem;margin-right:.5rem;">
+                      BETA
+                      </strong>
+                      <span style="color:#091f2f;">
+                      <strong>
+                          Student demo project — not an official City of Boston website.
+                      <a href="our_team.html" style="color:#091f2f;text-decoration:underline;">Learn more</a>
+                      </strong>
+                      </span>
                   </div>
                 </div>
 
@@ -218,7 +220,7 @@
 
                       <h2>Trip Categories &amp; Frequency Assumptions</h2>
 
-                      <p>We've organized typical trips into four categories. These frequencies below represent defaults for different user lifestyles—you can customize them in the calculator.</p>
+                      <p>We've organized typical trips into four categories. These frequencies below represent defaults for different user lifestyles. You can customize them in the calculator.</p>
 
                       <table class="frequency-table">
                           <thead>
@@ -232,32 +234,32 @@
                           </thead>
                           <tbody>
                               <tr>
-                                  <td><strong>Groceries</strong></td>
-                                  <td>24</td>
-                                  <td>28</td>
-                                  <td>36</td>
-                                  <td>30</td>
+                                  <td><strong>Commute per week</strong></td>
+                                  <td>5</td>
+                                  <td>10</td>
+                                  <td>10</td>
+                                  <td>5</td>
                               </tr>
                               <tr>
-                                  <td><strong>Historical Towns</strong><br>(day trips: Salem, Concord, etc.)</td>
-                                  <td>1</td>
-                                  <td>2</td>
-                                  <td>2</td>
+                                  <td><strong>Non-commute trips per week</strong></td>
+                                  <td>3</td>
                                   <td>4</td>
-                              </tr>
-                              <tr>
-                                  <td><strong>Coastal Towns</strong><br>(day trips: Cape Ann, Gloucester, etc.)</td>
-                                  <td>2</td>
-                                  <td>2</td>
-                                  <td>2</td>
+                                  <td>5</td>
                                   <td>3</td>
                               </tr>
                               <tr>
-                                  <td><strong>Family Trips</strong><br>(school, activities, etc.)</td>
-                                  <td>0</td>
-                                  <td>0</td>
-                                  <td>6</td>
-                                  <td>7</td>
+                                  <td><strong>Day trips per year</strong><br>(Salem, Concord, Cape Ann, Gloucester, etc.)</td>
+                                  <td>2</td>
+                                  <td>3</td>
+                                  <td>4</td>
+                                  <td>5</td>
+                              </tr>
+                              <tr>
+                                  <td><strong>Multi-day Trips per year</strong><br>(Cape Cod, New Hampshire, Vermont etc.)</td>
+                                  <td>1</td>
+                                  <td>2</td>
+                                  <td>3</td>
+                                  <td>4</td>
                               </tr>
                           </tbody>
                       </table>
@@ -271,20 +273,23 @@
                       <div class="b-c" style="background: #f6f6f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
                         <h3 style="color: #091f2f; margin-top: 0;">With a Car</h3>
                         <p style="font-family: 'Courier New', monospace; font-size: 1.1rem; background: #fff; padding: 1rem; border-radius: 4px; border-left: 4px solid #0b4b66;">
-                          <strong>Total Annual Cost = (Variable Cost per Trip × Number of Trips) + Fixed Annual Costs</strong>
+                          <strong>Total Annual Cost = Annual Fuel/Electricity Costs + Fixed Annual Costs</strong>
                         </p>
                         <p style="margin-bottom: 0;">
-                          <strong>Fixed costs</strong> include: parking (off-street: $250/month, on-street: free), insurance ($1,538/year), maintenance ($1,000/year), registration &amp; inspection ($100/year), plus loan/lease costs.
+                          <strong>Annual Fuel/Electricity costs for non-car owners</strong> could be calculated at the <a href="https://afdc.energy.gov/calc" target="_blank" rel="noopener noreferrer">AFDC website</a>. For annual mileage, we assume 8.1 miles/commute, 7 miles/non-commute, 120 miles/day trip, and 295 miles/multi-day trip.
+                        </p>
+                        <p style="margin-bottom: 0;">
+                          <strong>Fixed costs</strong> include: parking (off-street: $250/month, on-street: free), insurance ($1,200/year), registration &amp; inspection ($100/year), plus loan/lease costs.
                         </p>
                       </div>
 
                       <div class="b-c" style="background: #f6f6f6; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0;">
                         <h3 style="color: #091f2f; margin-top: 0;">Without a Car</h3>
                         <p style="font-family: 'Courier New', monospace; font-size: 1.1rem; background: #fff; padding: 1rem; border-radius: 4px; border-left: 4px solid #0b4b66;">
-                          <strong>Total Annual Cost = (Public Transit Cost × Trips) + (Rideshare/Rental Cost × Trips) + Fixed Uber/Rental Costs</strong>
+                          <strong>Total Annual Cost = (Public Transit Cost × Trips) + (Rideshare/Rental Cost × Trips)</strong>
                         </p>
                         <p style="margin-bottom: 0;">
-                          <strong>Transit costs</strong> vary by trip type: groceries via MBTA, day trips via regional transit, and occasional rideshare (Uber/Lyft) or car rental for longer trips.
+                          Assumptions are shown below. <br><strong>MBTA cost:</strong> Commute and 75% of non-commute trips use MBTA at $2.4/per ride. If the total cost exceeds $90, the person buys a Charlie card at $90.<br><strong>Regional bus cost:</strong> Average day-trip bus costs $20.<br><strong>Rideshare cost:</strong> 25% of non-commute trips via rideshare @ $15/trip.<br><strong>Rental car cost:</strong> $40/day, assume 2 days for multi-day trips.
                         </p>
                       </div>
 

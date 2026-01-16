@@ -38,7 +38,7 @@ const LIFESTYLE_PRESETS = {
   },
   frequent: {
     commuteDays: 5,
-    nonCommuteTrips: 6,
+    nonCommuteTrips: 3,
     dayTripsHighway: 5,
     multiDayTrips: 4,
   },
