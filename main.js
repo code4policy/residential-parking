@@ -204,6 +204,39 @@ function setUserCategory(category) {
 // ];
 
 // ------- New calculator behavior (navigation, car/no-car logic, computations) -------
+// --- Calculate and display daily mileage for AFDC helper ---
+function calculateAfdcDailyMileage() {
+  const commuteDays = Number(document.getElementById('commuteDays')?.value) || 0;
+  const nonCommuteTrips = Number(document.getElementById('nonCommuteTrips')?.value) || 0;
+  const dayTripsHighway = Number(document.getElementById('dayTripsHighway')?.value) || 0;
+  const multiDayTrips = Number(document.getElementById('multiDayTrips')?.value) || 0;
+
+  // Fixed distances
+  const commuteDist = 8.1;
+  const nonCommuteDist = 7;
+  const dayTripDist = 120;
+  const multiDayDist = 295;
+
+  // Calculate total annual mileage
+  const annualMileage = (commuteDays * 52 * commuteDist) + (nonCommuteTrips * 52 * nonCommuteDist) + (dayTripsHighway * dayTripDist) + (multiDayTrips * multiDayDist);
+  // Typical daily mileage
+  const dailyMileage = annualMileage / 365;
+  return Math.round(dailyMileage * 10) / 10; // round to 1 decimal
+}
+
+function updateAfdcMileageHelper() {
+  const helper = document.getElementById('afdcMileageHelper');
+  if (!helper) return;
+  const xx = calculateAfdcDailyMileage();
+  helper.textContent = `The AFDC calculator will ask for your approximate daily mileage.\nBased on your travel patterns, your daily travel distance should be around ${xx} mi.`;
+}
+
+['commuteDays','nonCommuteTrips','dayTripsHighway','multiDayTrips'].forEach(id => {
+  document.getElementById(id)?.addEventListener('input', updateAfdcMileageHelper);
+});
+
+// Initialize on page load
+updateAfdcMileageHelper();
 
 // Screen helpers
 function showScreen(id) {
@@ -226,6 +259,8 @@ toStep2Btn?.addEventListener('click', () => {
 
 const toNoCarBtn = document.getElementById('toComparisonFromCar');
 toNoCarBtn?.addEventListener('click', () => {
+  // Derive defaults from Screen 1 inputs when entering Screen 3
+  setNoCarDefaultsFromBasics();
   showScreen('screen-nocar'); // screen 3
 });
 
@@ -378,48 +413,78 @@ function updateCarSummary() {
 }
 
 // No-car interactions
-const mbtaBusTripsPerMonth = document.getElementById('mbtaBusTripsPerMonth');
+const mbtaTripsPerMonth = document.getElementById('mbtaTripsPerMonth');
+const mbtaPassPrice = document.getElementById('mbtaPassPrice');
+const mbtaFare = document.getElementById('mbtaFare');
+const mbtaAutoCheapest = document.getElementById('mbtaAutoCheapest');
+// New direct monthly inputs (Screen 3)
+const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
+const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
+const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
+// Rental is provided as ANNUAL direct input on Screen 3
+const rentalCarAnnualDirect = document.getElementById('rentalCarAnnualDirect');
 
-const regionalBusTripsPerMonth = document.getElementById('regionalBusTripsPerMonth');
+const regionalTown = document.getElementById('regionalTown');
+const regionalTripsPerYear = document.getElementById('regionalTripsPerYear');
+const regionalFare = document.getElementById('regionalFare');
 
-const rideshareMonthlySpend = document.getElementById('rideshareMonthlySpend');
+const rideshareTripsPerMonth = document.getElementById('rideshareTripsPerMonth');
+const rideshareAvgCost = document.getElementById('rideshareAvgCost');
+const rideshareMultiplier = document.getElementById('rideshareMultiplier');
 
-const rentalTripsPerYear = document.getElementById('rentalTripsPerYear');
+const rentalChoiceRadios = document.querySelectorAll('input[name="rentalChoice"]');
+const rentalDaysPerYear = document.getElementById('rentalDaysPerYear');
+const rentalWeekendsPerYear = document.getElementById('rentalWeekendsPerYear');
+const rentalDaysPerWeekend = document.getElementById('rentalDaysPerWeekend');
+const rentalDailyCost = document.getElementById('rentalDailyCost');
+const rentalFuelPerDay = document.getElementById('rentalFuelPerDay');
 
 // MBTA strategy
-// MBTA strategy removed; only bus trips per month input is used now.
+document.querySelectorAll('input[name="mbtaStrategy"]').forEach((r) => r.addEventListener('change', () => {
+  const strategy = document.querySelector('input[name="mbtaStrategy"]:checked')?.value;
+  document.getElementById('mbtaPassRow').hidden = strategy !== 'pass';
+  document.getElementById('mbtaPayRow').hidden = strategy !== 'pay';
+  updateNoCarSummary();
+}));
 
 // Rental choice
-// Rental choice logic removed; only trips per year input is used now.
+rentalChoiceRadios.forEach((r) => r.addEventListener('change', () => {
+  const val = document.querySelector('input[name="rentalChoice"]:checked')?.value;
+  document.getElementById('rentalDaysRow').hidden = val !== 'days';
+  document.getElementById('rentalWeekendsRow').hidden = val !== 'weekends';
+  updateNoCarSummary();
+}));
 
-// Regional bus town/fare logic removed; only trips per month input is used now.
+// Regional town fare prefill map
+const regionalFareMap = {
+  quincy: 2.25,
+  newton: 2.75,
+  wellesley: 3.25,
+  lynn: 3.00,
+  other: 2.50,
+  boston: 2.40,
+};
+
+regionalTown?.addEventListener('change', () => {
+  const val = regionalTown.value;
+  const pre = regionalFareMap[val] ?? 2.5;
+  regionalFare.value = pre;
+  updateNoCarSummary();
+});
 
 // Live updates
-[mbtaBusTripsPerMonth, regionalBusTripsPerMonth, rideshareMonthlySpend, rentalTripsPerYear].forEach((el) => {
+// Listen for changes on new direct monthly/annual inputs (and legacy ones if present)
+[mbtaMonthlyDirect, regionalBusMonthlyDirect, rideshareMonthlyDirect, rentalCarAnnualDirect, mbtaTripsPerMonth, mbtaPassPrice, mbtaFare, mbtaAutoCheapest, regionalTripsPerYear, regionalFare, rideshareTripsPerMonth, rideshareAvgCost, rideshareMultiplier, rentalDaysPerYear, rentalWeekendsPerYear, rentalDaysPerWeekend, rentalDailyCost, rentalFuelPerDay].forEach((el) => {
   el?.addEventListener('input', updateNoCarSummary);
   el?.addEventListener('change', updateNoCarSummary);
 });
 
 function updateNoCarSummary() {
-  // MBTA Bus logic: if trips > 40, $90/month, else trips * $1.70/month
-  const tripsMonth = parseNumber(mbtaBusTripsPerMonth, 0);
-  let mbtaAnnual = 0;
-  if (tripsMonth > 40) {
-    mbtaAnnual = 90 * 12;
-  } else {
-    mbtaAnnual = tripsMonth * 1.70 * 12;
-  }
-
-  // Regional bus logic: regional cost = trips * $7 * 12
-  const regionalTripsMonth = parseNumber(regionalBusTripsPerMonth, 0);
-  const regionalAnnual = regionalTripsMonth * 7 * 12;
-
-  // Rideshare: use monthly spend directly
-  const rideshareAnnual = parseNumber(rideshareMonthlySpend, 0) * 12;
-
-  // Rental cars: use trips per year × $150
-  const rentalTrips = parseNumber(rentalTripsPerYear, 0);
-  const rentalAnnual = rentalTrips * 150;
+  // Use direct monthly cost inputs (annualized) and direct annual rental input
+  const mbtaAnnual = parseNumber(mbtaMonthlyDirect, 0) * 12;
+  const regionalAnnual = parseNumber(regionalBusMonthlyDirect, 0) * 12;
+  const rideshareAnnual = parseNumber(rideshareMonthlyDirect, 0) * 12;
+  const rentalAnnual = parseNumber(rentalCarAnnualDirect, 0);
 
   document.getElementById('mbtaAnnual').textContent = money(mbtaAnnual);
   document.getElementById('regionalAnnual').textContent = money(regionalAnnual);
@@ -428,6 +493,32 @@ function updateNoCarSummary() {
 
   const total = mbtaAnnual + regionalAnnual + rideshareAnnual + rentalAnnual;
   document.getElementById('noCarAnnual').textContent = money(total);
+}
+
+// Derive sensible defaults for Screen 3 from Screen 1 inputs
+function setNoCarDefaultsFromBasics() {
+  const commuteDays = Number(document.getElementById('commuteDays')?.value) || 0;
+  const nonCommuteTrips = Number(document.getElementById('nonCommuteTrips')?.value) || 0;
+  const dayTripsHighway = Number(document.getElementById('dayTripsHighway')?.value) || 0;
+  const multiDayTrips = Number(document.getElementById('multiDayTrips')?.value) || 0;
+
+  const weeks = 4; // approximate weeks per month
+  const mbtaTripsMonth = (commuteDays * 2 * weeks) + (nonCommuteTrips * weeks);
+  const payPerRideMonthly = mbtaTripsMonth * 2.4; // typical fare for subway/bus
+  const passMonthly = 90; // typical LinkPass price
+  const mbtaMonthlyDefault = Math.min(passMonthly, payPerRideMonthly);
+
+  const rideshareMonthlyDefault = Math.max(0, Math.round(nonCommuteTrips * weeks * 0.25) * 15); // ~25% of non-commute trips via rideshare @ $15
+  const REGIONAL_BUS_AVG_PER_DAY = 12; // average day-trip spend on regional bus
+  const regionalMonthlyDefault = (dayTripsHighway * REGIONAL_BUS_AVG_PER_DAY) / 12; // convert annual day trips to monthly cost
+  const rentalAnnualDefault = Math.max(0, Math.round(40 * (dayTripsHighway + (multiDayTrips * 2)))); // $40/day, assume 2 days for multi-day trips
+
+  if (mbtaMonthlyDirect) mbtaMonthlyDirect.value = Math.round(mbtaMonthlyDefault);
+  if (regionalBusMonthlyDirect) regionalBusMonthlyDirect.value = Math.round(regionalMonthlyDefault);
+  if (rideshareMonthlyDirect) rideshareMonthlyDirect.value = Math.round(rideshareMonthlyDefault);
+  if (rentalCarAnnualDirect) rentalCarAnnualDirect.value = rentalAnnualDefault;
+
+  updateNoCarSummary();
 }
 
 // Comparison navigation
@@ -439,7 +530,7 @@ function showResults() {
   const carTotal = parseNumber(afdcAnnual, 0) + (parkingChoice === 'permit' ? parseNumber(residentPermitAnnual, 0) : parseNumber(parkingMonthly, 0) * 12) + parseNumber(insuranceAnnual, 0) + parseNumber(exciseTax, 0) + parseNumber(regInspect, 0) + (document.querySelector('input[name="ownership"]:checked')?.value === 'loan' ? parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12) : 0);
 
   // No car total
-  const mbtaVal = parseNumber(document.getElementById('mbtaAnnual'), 0) ? Number(document.getElementById('mbtaAnnual').textContent.replace(/[$,]/g, '')) : 0;
+  const mbtaVal = Number(document.getElementById('mbtaAnnual')?.textContent.replace(/[$,]/g, '')) || 0;
   const regionalVal = Number(document.getElementById('regionalAnnual').textContent.replace(/[$,]/g, '')) || 0;
   const rideshareVal = Number(document.getElementById('rideshareAnnual').textContent.replace(/[$,]/g, '')) || 0;
   const rentalVal = Number(document.getElementById('rentalAnnual').textContent.replace(/[$,]/g, '')) || 0;
@@ -490,25 +581,37 @@ document.getElementById('startOver')?.addEventListener('click', () => {
   document.getElementById('multiDayTrips').value = 1;
 
   // Car defaults
-  if (typeof afdcAnnual !== 'undefined') afdcAnnual.value = 0;
-  if (typeof parkingMonthly !== 'undefined') parkingMonthly.value = 250;
+  afdcAnnual.value = 0;
+  if (parkingMonthly) parkingMonthly.value = 250;
+  // default to off-street parking
   if (document.querySelector('input[name="parkingChoice"][value="offstreet"]')) document.querySelector('input[name="parkingChoice"][value="offstreet"]').checked = true;
-  if (typeof residentPermitAnnual !== 'undefined') residentPermitAnnual.value = 0;
-  if (typeof insuranceAnnual !== 'undefined') insuranceAnnual.value = 1200;
-  if (typeof exciseTax !== 'undefined') exciseTax.value = 0;
-  if (typeof regInspect !== 'undefined') regInspect.value = 100;
-  if (document.querySelector('input[name="ownership"][value="loan"]')) document.querySelector('input[name="ownership"][value="loan"]').checked = true;
-  if (typeof loanMonthly !== 'undefined') loanMonthly.value = 300;
-  if (typeof loanMonthsPerYear !== 'undefined') loanMonthsPerYear.value = 12;
+  if (parkingOffstreetRow) parkingOffstreetRow.hidden = false;
+  if (residentPermitRow) residentPermitRow.hidden = true;
+  if (residentPermitAnnual) residentPermitAnnual.value = 0;
+  insuranceAnnual.value = 1200;
+  exciseTax.value = 0;
+  regInspect.value = 100;
+  document.querySelector('input[name="ownership"][value="loan"]').checked = true;
+  document.getElementById('loanFields').hidden = false;
+  document.getElementById('paidFields').hidden = true;
+  loanMonthly.value = 300;
+  loanMonthsPerYear.value = 12;
+  // Removed depreciation default
 
-  // No-car defaults
-  if (typeof mbtaBusTripsPerMonth !== 'undefined') mbtaBusTripsPerMonth.value = 0;
-  if (typeof regionalBusTripsPerMonth !== 'undefined') regionalBusTripsPerMonth.value = 0;
-  if (typeof rideshareMonthlySpend !== 'undefined') rideshareMonthlySpend.value = 0;
-  if (typeof rentalTripsPerYear !== 'undefined') rentalTripsPerYear.value = 0;
+
+  // No-car direct monthly cost fields
+  const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
+  const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
+  const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
+  const rentalCarAnnualDirect = document.getElementById('rentalCarAnnualDirect');
+  if (mbtaMonthlyDirect) mbtaMonthlyDirect.value = 0;
+  if (regionalBusMonthlyDirect) regionalBusMonthlyDirect.value = 0;
+  if (rideshareMonthlyDirect) rideshareMonthlyDirect.value = 0;
+  if (rentalCarAnnualDirect) rentalCarAnnualDirect.value = 0;
 
   updateCarSummary();
-  updateNoCarSummary();
+  // Optionally derive fresh defaults for Screen 3 based on reset basics
+  setNoCarDefaultsFromBasics();
   showScreen('screen-basics');
 });
 

@@ -66,7 +66,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="no-sidebar">
+							<div class="p-b700 no-sidebar">
 								<div class="sub-nav-trigger ssm-trigger drawer-trigger" role="button" aria-controls="topic-nav" aria-expanded="false" tabindex="0" aria-hidden="true">
 									<div class="ssm-chevron">
 										<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 26 18" style="enable-background:new 0 0 26 18;" xml:space="preserve">
@@ -86,14 +86,15 @@
 												<div>
 													<div style="margin-top: 00 px; margin-bottom: -75px;">
 														<p class="intro-lead">Living in Boston, a car can be a convenience—or a major expense. This page helps you compare the true cost of life with a car versus without one, based on how you actually get around.
-                                                        You can explore example lifestyles—such as students, families, or frequent commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
+
+You can explore example lifestyles—such as students, families, or frequent commuters—or use the interactive calculator to estimate costs based on your address and transportation habits.</p>
 													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div class="subnav-anchor" aria-hidden="true" title="This is an anchor"></div>
+								<div class="subnav-anchor" id="apply-online" data-text="Apply Online" aria-hidden="true" title="This is an anchor"></div>
 								<div class="entity entity-paragraphs-item paragraphs-item-text component-section entity entity-paragraphs-item component-section component-section b--fw" bos_context_type="Text" about="" typeof="">
 
                                     <section class="b b--fw" id="calculator">
@@ -124,10 +125,10 @@
 
                                                     <label class="calc-row">
                                                         <span class="calc-labels">
-                                                            <span class="calc-name">Commute days per week</span>
-                                                            <span class="calc-sub">Days per week you travel to work, school, daycare, etc. in person. (0–7)</span>
+                                                            <span class="calc-name">Daily commute trips</span>
+                                                            <span class="calc-sub">One-way trips for your daily commute (work, school, etc.)</span>
                                                         </span>
-                                                        <input id="commuteDays" class="txt" type="number" min="0" max="7" step="1" value="5">
+                                                        <input id="commuteDays" class="txt" type="number" min="0" step="1" value="5">
                                                     </label>
 
                                                     <label class="calc-row">
@@ -174,11 +175,11 @@
                                                                     <div class="option-control">
                                                                         <label style="margin-bottom: 0.25rem;">
                                                                             <input type="radio" name="carOwnership" id="ownCarYes" value="yes">
-                                                                            Yes
+                                                                            Yes — I already own a car
                                                                         </label>
                                                                         <label>
                                                                             <input type="radio" name="carOwnership" id="ownCarNo" value="no">
-                                                                            No
+                                                                            No — I’m considering buying one
                                                                         </label>
                                                                     </div>
                                                                 </div>
@@ -199,6 +200,7 @@
                                                                     <div>
                                                                         <div class="option-title">Estimated annual fuel/energy cost (USD)</div>
                                                                         <div class="option-sub">Use the <a href='https://www.afdc.energy.gov/calc' target='_blank' id='afdcLink'>AFDC calculator</a> to estimate annual fuel or charging costs for a car you might buy.</div>
+                                                                                                                                            <div class="option-sub" id="afdcMileageHelper" style="margin-top:0.25em;"></div>
                                                                     </div>
                                                                     <div class="option-control">
                                                                         <input id="afdcAnnual" class="txt" type="number" min="0" step="100">
@@ -225,9 +227,8 @@
                                                                             <label class="calc-row">
                                                                                 <span class="calc-labels">
                                                                                     <span class="calc-name">Monthly parking cost (USD)</span>
-                                                                                    <input id="parkingMonthly" class="txt" type="number" min="0" step="50" value="250">
                                                                                 </span>
-                                                                                
+                                                                                <input id="parkingMonthly" class="txt" type="number" min="0" step="50" value="250">
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -246,9 +247,8 @@
                                                                             <label class="calc-row">
                                                                                 <span class="calc-labels">
                                                                                     <span class="calc-name">Resident permit annual (USD)</span>
-                                                                                    <input id="residentPermitAnnual" class="txt" type="number" min="0" step="100" value="0" readonly>
                                                                                 </span>
-                                                                                
+                                                                                <input id="residentPermitAnnual" class="txt" type="number" min="0" step="100" value="0" readonly>
                                                                             </label>
                                                                         </div>
                                                                     </div>
@@ -320,27 +320,27 @@
 
                                                 <!-- Screen 3 — No-car option -->
                                                 <div class="calc-screen" data-screen="3" id="screen-nocar" hidden>
-                                                    <h3 class="h3">No-car — Mobility mix</h3>
+                                                    <h3 class="h3">Car-Free Transportation Mix</h3>
 
                                                     <div class="calc-section">
-                                                        <h4>MBTA Bus Usage</h4>
+                                                        <h4>MBTA</h4>
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">Approximate MBTA bus trips per month</span>
-                                                                <span class="calc-sub">Enter the number of individual bus trips you take per month (not round trips).</span>
+                                                                <span class="calc-name">Your monthly MBTA cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on MBTA (subway, bus, commuter rail, ferry, etc.)</span>
                                                             </span>
-                                                            <input id="mbtaBusTripsPerMonth" class="txt" type="number" min="0" step="1" value="0">
+                                                            <input id="mbtaMonthlyDirect" class="txt" type="number" min="0" step="1" value="0">
                                                         </label>
                                                     </div>
 
                                                     <div class="calc-section">
-                                                        <h4>Regional bus</h4>
+                                                        <h4>Regional bus (outside Boston)</h4>
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">How many regional trips do you take in a typical month?</span>
-                                                                <span class="calc-sub">Trips to Quincy, Newton, Lynn, etc.</span>
+                                                                <span class="calc-name">Your monthly Regional bus cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on regional buses (e.g., MBTA express, MWRTA, LRTA, etc.)</span>
                                                             </span>
-                                                            <input id="regionalBusTripsPerMonth" class="txt" type="number" min="0" step="1" value="0">
+                                                            <input id="regionalBusMonthlyDirect" class="txt" type="number" min="0" step="1" value="0">
                                                         </label>
                                                     </div>
 
@@ -348,9 +348,10 @@
                                                         <h4>Rideshare</h4>
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">How much do you usually spend in a month on rideshare trips (e.g. Uber, Lyft)? (USD)</span>
+                                                                <span class="calc-name">Your monthly Rideshare cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated monthly spending on rideshare (Uber, Lyft, etc.)</span>
                                                             </span>
-                                                            <input id="rideshareMonthlySpend" class="txt" type="number" min="0" step="1" value="0">
+                                                            <input id="rideshareMonthlyDirect" class="txt" type="number" min="0" step="1" value="0">
                                                         </label>
                                                     </div>
 
@@ -358,10 +359,10 @@
                                                         <h4>Rental cars</h4>
                                                         <label class="calc-row">
                                                             <span class="calc-labels">
-                                                                <span class="calc-name">How many multi-day trips do you take per year to destinations around Massachusetts?</span>
-                                                                <span class="calc-sub">Destinations might include Cape Cod, the Berkshires, Salem, or the North Shore.</span>
+                                                                <span class="calc-name">Your ANNUAL rental car cost (USD)</span>
+                                                                <span class="calc-sub">Enter your actual or estimated ANNUAL spending on rental cars (Zipcar, Hertz, Enterprise, etc.)</span>
                                                             </span>
-                                                            <input id="rentalTripsPerYear" class="txt" type="number" min="0" step="1" value="0">
+                                                            <input id="rentalCarAnnualDirect" class="txt" type="number" min="0" step="10" value="0">
                                                         </label>
                                                     </div>
 
@@ -424,28 +425,23 @@
                                     </div>
 
                                     </section>                                    
-                                </div>
-                                </div>
-
-                                								<div class="subnav-anchor" aria-hidden="true" title="This is an anchor"></div>
-								<div class="entity entity-paragraphs-item paragraphs-item-text component-section entity entity-paragraphs-item component-section component-section b--fw" bos_context_type="Text" about="" typeof="">
-
-                                    <section class="b b--fw" id="calculator">
+                                    
+                                    <!-- <section class="b b--fw">
                                     <div class="b-c">
                                         <div class="sh">
-                                        <h2 class="sh-title">Need help deciding? Ask our AI Agent! </h2>
+                                        <h2 class="sh-title">Typical Transportation Costs for Different Lifestyles</h2>
                                         </div>
-                                        <div class="calc-shell">
-                                            <!-- Multi-screen calculator -->
-                                            <div id="calcStepper">
-                                                    <h3 class="h3 m-t400 m-b400">Next, let's compare your options with an AI agent!</h3>
-                                                    <iframe src="https://boston-agent--artahseenjahan.replit.app" style="width: 100%; height: 800px; border: none;"></iframe>
-                                                    <strong class="m-t300"><em>DISCLAIMER: AI-generated content may not always reflect the most current information or policies. Please verify any critical information independently.</em></strong>
-                                            </div>
+
+                                        <div id="lifestyles" class="cob-accordion"></div>
+                                    </div>
+                                    </section> -->
+
+                                    <div class="paragraphs-items paragraphs-items-full">
+                                        <div class="component-section">
+                                        <div class="field field-label-hidden field-type-text-long field__items field-items">
+                                        </div>
                                         </div>
                                     </div>
-                                    </section>                                    
-
                                 </div>
                                 </div>
 							</div>
