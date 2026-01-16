@@ -16,87 +16,64 @@ function loadHTML(id, file) {
 loadHTML("header-placeholder", "header.html");
 loadHTML("footer-placeholder", "footer.html");
 
-// Load calculator
-// === Your cost table (USD / roundtrip) ===
-const COSTS = {
-  groceries:  { publicTransport: 4.8, carVar: 2 },
-  historical: { publicTransport: 20,  carVar: 20 },
-  coastal:    { publicTransport: 200, carVar: 200 },
-  family:     { publicTransport: 40,  carVar: 40 },
-};
-
-// === Your fixed values ===
-const UBER_FIXED = 1200;
-const CAR_FIXED = 2293;
-
-// === User type defaults (based on your table) ===
-const USER_DEFAULTS = {
+// Lifestyle presets for quick input
+const LIFESTYLE_PRESETS = {
   student: {
-    groceries: 24,
-    historical: 1,
-    coastal: 2,
-    family: 0,
+    commuteDays: 5,
+    nonCommuteTrips: 3,
+    dayTripsHighway: 2,
+    multiDayTrips: 1,
   },
   couple: {
-    groceries: 28,
-    historical: 2,
-    coastal: 2,
-    family: 0,
+    commuteDays: 10,
+    nonCommuteTrips: 4,
+    dayTripsHighway: 3,
+    multiDayTrips: 2,
   },
   family: {
-    groceries: 36,
-    historical: 2,
-    coastal: 2,
-    family: 6,
+    commuteDays: 10,
+    nonCommuteTrips: 5,
+    dayTripsHighway: 4,
+    multiDayTrips: 3,
   },
   frequent: {
-    groceries: 30,
-    historical: 4,
-    coastal: 3,
-    family: 0,
+    commuteDays: 5,
+    nonCommuteTrips: 6,
+    dayTripsHighway: 5,
+    multiDayTrips: 4,
   },
 };
 
-// === DOM ===
-const inputs = {
-  groceries: document.getElementById("groceries"),
-  historical: document.getElementById("historical"),
-  coastal: document.getElementById("coastal"),
-  family: document.getElementById("family"),
-};
-
-const carTotalEl = document.getElementById("carTotal");
-const noCarTotalEl = document.getElementById("noCarTotal");
-const compareValueEl = document.getElementById("compareValue");
-const compareNoteEl = document.getElementById("compareNote");
-const errorEl = document.getElementById("error");
-
-// Category buttons
-const categoryButtons = document.querySelectorAll(".categoryBtn");
-
-const uberFixedEl = document.getElementById("uberFixed");
-if (uberFixedEl) uberFixedEl.textContent = money(UBER_FIXED);
-const carFixedEl = document.getElementById("carFixed");
-if (carFixedEl) carFixedEl.textContent = money(CAR_FIXED);
-
-// Add click listeners to category buttons
-categoryButtons.forEach((btn) => {
-  btn.addEventListener("click", (e) => {
-    const category = e.currentTarget.dataset.category;
-    setUserCategory(category);
+// Add click listeners to lifestyle buttons
+document.querySelectorAll('.lifestyle-btn').forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    const lifestyle = e.currentTarget.dataset.lifestyle;
+    applyLifestylePreset(lifestyle);
   });
 });
 
-const resetBtn = document.getElementById("resetBtn");
-if (resetBtn) resetBtn.addEventListener("click", resetAll);
+function applyLifestylePreset(lifestyle) {
+  const preset = LIFESTYLE_PRESETS[lifestyle];
+  if (!preset) return;
 
-// Auto-calc whenever user types (this is the “user-based” interface you want)
-Object.values(inputs).forEach((inp) => {
-  if (inp) inp.addEventListener("input", calculateAll);
-});
+  const commuteDaysEl = document.getElementById('commuteDays');
+  const nonCommuteTipsEl = document.getElementById('nonCommuteTrips');
+  const dayTripsHighwayEl = document.getElementById('dayTripsHighway');
+  const multiDayTripsEl = document.getElementById('multiDayTrips');
 
-if (inputs.groceries) calculateAll(); // initial (only when legacy inputs exist)
+  if (commuteDaysEl) commuteDaysEl.value = preset.commuteDays;
+  if (nonCommuteTipsEl) nonCommuteTipsEl.value = preset.nonCommuteTrips;
+  if (dayTripsHighwayEl) dayTripsHighwayEl.value = preset.dayTripsHighway;
+  if (multiDayTripsEl) multiDayTripsEl.value = preset.multiDayTrips;
 
+  // Highlight the clicked button
+  document.querySelectorAll('.lifestyle-btn').forEach((b) => {
+    b.style.outline = b.dataset.lifestyle === lifestyle ? '3px solid #091f2f' : 'none';
+    b.style.outlineOffset = b.dataset.lifestyle === lifestyle ? '2px' : 'none';
+  });
+}
+
+// Helper function to format currency
 function money(n) {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -105,105 +82,7 @@ function money(n) {
   }).format(n);
 }
 
-function readTrips() {
-  const trips = {};
-  for (const key in inputs) {
-    const v = Number(inputs[key].value);
-
-    if (!Number.isFinite(v) || v < 0) throw new Error("Trips must be 0 or a positive number.");
-    if (!Number.isInteger(v)) throw new Error("Trips must be whole numbers (no decimals).");
-
-    trips[key] = v;
-  }
-  return trips;
-}
-
-// Total No car cost = (Public Transport x Trips made + Uber Cost)
-function totalNoCar(trips) {
-  let publicTransportTotal = 0;
-  for (const key in trips) {
-    publicTransportTotal += COSTS[key].publicTransport * trips[key];
-  }
-  return publicTransportTotal + UBER_FIXED;
-}
-
-// Total Car cost = (Var Cost x Trips Made + Fixed Cost)
-function totalCar(trips) {
-  let varTotal = 0;
-  for (const key in trips) {
-    varTotal += COSTS[key].carVar * trips[key];
-  }
-  return varTotal + CAR_FIXED;
-}
-
-function calculateAll() {
-  errorEl.textContent = "";
-
-  try {
-    const trips = readTrips();
-
-    const noCar = totalNoCar(trips);
-    const car = totalCar(trips);
-
-    noCarTotalEl.textContent = money(noCar);
-    carTotalEl.textContent = money(car);
-
-    const diff = car - noCar;
-    const abs = Math.abs(diff);
-
-    // Remove previous highlight classes
-    compareNoteEl.classList.remove("cheaper-green", "cheaper-red");
-
-    if (diff > 0) {
-      compareValueEl.textContent = `Car Cost is ${money(abs)} more`;
-      compareNoteEl.textContent = "Not owning a car costs less for you.";
-      compareNoteEl.classList.add("cheaper-green");
-    } else if (diff < 0) {
-      compareValueEl.textContent = `Car Cost is ${money(abs)} less`;
-      compareNoteEl.textContent = "Owning a car costs less for you.";
-      compareNoteEl.classList.add("cheaper-red");
-    } else {
-      compareValueEl.textContent = "Same cost";
-      compareNoteEl.textContent = "Both options cost the same.";
-    }
-  } catch (err) {
-    // If input invalid, don’t leave stale numbers.
-    noCarTotalEl.textContent = money(0);
-    carTotalEl.textContent = money(0);
-    compareValueEl.textContent = "—";
-    compareNoteEl.textContent = "Fix the input to calculate.";
-    compareNoteEl.classList.remove("cheaper-green", "cheaper-red");
-    errorEl.textContent = err?.message || "Something went wrong.";
-  }
-}
-
-function resetAll() {
-  for (const key in inputs) if (inputs[key]) inputs[key].value = 0;
-  if (inputs.groceries) calculateAll();
-}
-
-// Set user category and load defaults
-function setUserCategory(category) {
-  const defaults = USER_DEFAULTS[category];
-  if (!defaults) return;
-
-  for (const key in defaults) {
-    if (inputs[key]) inputs[key].value = defaults[key] ?? 0;
-  }
-
-  categoryButtons.forEach((btn) => btn.classList.remove("active"));
-  const activeBtn = document.querySelector(`.categoryBtn[data-category="${category}"]`);
-  if (activeBtn) activeBtn.classList.add("active");
-
-  if (inputs.groceries) calculateAll();
-}
-
-// Load lifestyle data and populate accordion
-// const lifestyleData = [
-//   ... (omitted)
-// ];
-
-// ------- New calculator behavior (navigation, car/no-car logic, computations) -------
+// ------- Calculator behavior (navigation, car/no-car logic, computations) -------
 // --- Calculate and display daily mileage for AFDC helper ---
 function calculateAfdcDailyMileage() {
   const commuteDays = Number(document.getElementById('commuteDays')?.value) || 0;
@@ -307,6 +186,7 @@ function updateCarOwnershipUI() {
 if (carOwnershipYes) carOwnershipYes.addEventListener('change', updateCarOwnershipUI);
 if (carOwnershipNo) carOwnershipNo.addEventListener('change', updateCarOwnershipUI);
 updateCarOwnershipUI();
+
 const parkingMonthly = document.getElementById('parkingMonthly');
 const residentPermitAnnual = document.getElementById('residentPermitAnnual');
 const parkingOffstreetRow = document.getElementById('parkingOffstreetRow');
@@ -316,7 +196,6 @@ const exciseTax = document.getElementById('exciseTax');
 const regInspect = document.getElementById('regInspect');
 const loanMonthly = document.getElementById('loanMonthly');
 const loanMonthsPerYear = document.getElementById('loanMonthsPerYear');
-// Removed depreciation input
 
 // Parking choice behavior (off-street or resident permit)
 function updateParkingSelectionUI(){
@@ -366,7 +245,6 @@ ownershipRadios.forEach((r) => r.addEventListener('change', () => {
   } else {
     loanFields.hidden = true;
     paidFields.hidden = false;
-    // Removed depreciation logic
   }
   updateCarSummary();
 }));
@@ -399,8 +277,6 @@ function updateCarSummary() {
   let ownershipAnnual = 0;
   if (document.querySelector('input[name="ownership"]:checked')?.value === 'loan') {
     ownershipAnnual = parseNumber(loanMonthly, 0) * parseNumber(loanMonthsPerYear, 12);
-  } else {
-    // Removed depreciation from ownershipAnnual
   }
 
   const fixed = parkingAnnual + insurance + excise + reg + ownershipAnnual;
@@ -413,39 +289,12 @@ function updateCarSummary() {
 }
 
 // No-car interactions
-const mbtaTripsPerMonth = document.getElementById('mbtaTripsPerMonth');
-const mbtaPassPrice = document.getElementById('mbtaPassPrice');
-const mbtaFare = document.getElementById('mbtaFare');
-const mbtaAutoCheapest = document.getElementById('mbtaAutoCheapest');
-// New direct monthly inputs (Screen 3)
 const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
 const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
 const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
-// Rental is provided as ANNUAL direct input on Screen 3
 const rentalCarAnnualDirect = document.getElementById('rentalCarAnnualDirect');
 
-const regionalTown = document.getElementById('regionalTown');
-const regionalTripsPerYear = document.getElementById('regionalTripsPerYear');
-const regionalFare = document.getElementById('regionalFare');
-
-const rideshareTripsPerMonth = document.getElementById('rideshareTripsPerMonth');
-const rideshareAvgCost = document.getElementById('rideshareAvgCost');
-const rideshareMultiplier = document.getElementById('rideshareMultiplier');
-
 const rentalChoiceRadios = document.querySelectorAll('input[name="rentalChoice"]');
-const rentalDaysPerYear = document.getElementById('rentalDaysPerYear');
-const rentalWeekendsPerYear = document.getElementById('rentalWeekendsPerYear');
-const rentalDaysPerWeekend = document.getElementById('rentalDaysPerWeekend');
-const rentalDailyCost = document.getElementById('rentalDailyCost');
-const rentalFuelPerDay = document.getElementById('rentalFuelPerDay');
-
-// MBTA strategy
-document.querySelectorAll('input[name="mbtaStrategy"]').forEach((r) => r.addEventListener('change', () => {
-  const strategy = document.querySelector('input[name="mbtaStrategy"]:checked')?.value;
-  document.getElementById('mbtaPassRow').hidden = strategy !== 'pass';
-  document.getElementById('mbtaPayRow').hidden = strategy !== 'pay';
-  updateNoCarSummary();
-}));
 
 // Rental choice
 rentalChoiceRadios.forEach((r) => r.addEventListener('change', () => {
@@ -455,26 +304,9 @@ rentalChoiceRadios.forEach((r) => r.addEventListener('change', () => {
   updateNoCarSummary();
 }));
 
-// Regional town fare prefill map
-const regionalFareMap = {
-  quincy: 2.25,
-  newton: 2.75,
-  wellesley: 3.25,
-  lynn: 3.00,
-  other: 2.50,
-  boston: 2.40,
-};
-
-regionalTown?.addEventListener('change', () => {
-  const val = regionalTown.value;
-  const pre = regionalFareMap[val] ?? 2.5;
-  regionalFare.value = pre;
-  updateNoCarSummary();
-});
-
 // Live updates
-// Listen for changes on new direct monthly/annual inputs (and legacy ones if present)
-[mbtaMonthlyDirect, regionalBusMonthlyDirect, rideshareMonthlyDirect, rentalCarAnnualDirect, mbtaTripsPerMonth, mbtaPassPrice, mbtaFare, mbtaAutoCheapest, regionalTripsPerYear, regionalFare, rideshareTripsPerMonth, rideshareAvgCost, rideshareMultiplier, rentalDaysPerYear, rentalWeekendsPerYear, rentalDaysPerWeekend, rentalDailyCost, rentalFuelPerDay].forEach((el) => {
+// Listen for changes on no-car inputs
+[mbtaMonthlyDirect, regionalBusMonthlyDirect, rideshareMonthlyDirect, rentalCarAnnualDirect].forEach((el) => {
   el?.addEventListener('input', updateNoCarSummary);
   el?.addEventListener('change', updateNoCarSummary);
 });
@@ -520,9 +352,6 @@ function setNoCarDefaultsFromBasics() {
 
   updateNoCarSummary();
 }
-
-// Comparison navigation
-// Navigation is now strictly 1 → 2 → 3 → final. Old comparison navigation removed.
 
 function showResults() {
   // Read totals
@@ -574,7 +403,7 @@ function showResults() {
 
 // Start over
 document.getElementById('startOver')?.addEventListener('click', () => {
-  // Reset fields to defaults (keep city?)
+  // Reset fields to defaults
   document.getElementById('commuteDays').value = 5;
   document.getElementById('nonCommuteTrips').value = 3;
   document.getElementById('dayTripsHighway').value = 2;
@@ -596,14 +425,8 @@ document.getElementById('startOver')?.addEventListener('click', () => {
   document.getElementById('paidFields').hidden = true;
   loanMonthly.value = 300;
   loanMonthsPerYear.value = 12;
-  // Removed depreciation default
-
 
   // No-car direct monthly cost fields
-  const mbtaMonthlyDirect = document.getElementById('mbtaMonthlyDirect');
-  const regionalBusMonthlyDirect = document.getElementById('regionalBusMonthlyDirect');
-  const rideshareMonthlyDirect = document.getElementById('rideshareMonthlyDirect');
-  const rentalCarAnnualDirect = document.getElementById('rentalCarAnnualDirect');
   if (mbtaMonthlyDirect) mbtaMonthlyDirect.value = 0;
   if (regionalBusMonthlyDirect) regionalBusMonthlyDirect.value = 0;
   if (rideshareMonthlyDirect) rideshareMonthlyDirect.value = 0;
@@ -618,5 +441,3 @@ document.getElementById('startOver')?.addEventListener('click', () => {
 // Initialize summaries
 updateCarSummary();
 updateNoCarSummary();
-
-// End new calculator behavior
